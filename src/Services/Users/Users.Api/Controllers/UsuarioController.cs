@@ -1,14 +1,18 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Common.Collection;
+using System.Security.Claims;
 using User.Service.EventHandlers.Commands;
 using Users.Service.Queries;
 using Users.Service.Queries.DTOs;
 
 namespace Users.Api.Controllers
 {
+    [Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
-    [Route("users/v1")]
+    [Route("v1/users")]
     public class UsuarioController:ControllerBase
     {
         private readonly ILogger<DefaultController> _logger;
@@ -23,10 +27,10 @@ namespace Users.Api.Controllers
         }
 
         [HttpGet("getall")]
-        public async Task<DataCollection<UsuarioDto>> GetAll(int page = 1, int take = 10, string ids = null)
+        public async Task<DataCollection<UsuarioDto>> GetAll(int page = 1, int take = 10, string? ids = null)
         {
+            var id = User.Claims.Single(x => x.Type.Equals(ClaimTypes.NameIdentifier)).Value;
             IEnumerable<int> users = null;
-
             if (!String.IsNullOrEmpty(ids))
             {
                 users = ids.Split(',').Select(x=> Convert.ToInt32(x));
@@ -58,7 +62,7 @@ namespace Users.Api.Controllers
 
         }
 
-        [HttpPost("modify/{id}")]
+        [HttpPost("modify")]
         [ProducesResponseType(typeof(IActionResult), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Modify(UserModifyCommand command)
@@ -74,6 +78,8 @@ namespace Users.Api.Controllers
             }
 
         }
+
+        
     }
 }
 

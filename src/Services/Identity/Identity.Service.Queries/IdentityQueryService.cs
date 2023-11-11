@@ -13,17 +13,17 @@ using System.Threading.Tasks;
 
 namespace Identity.Service.Queries
 {
-    public interface IUsuarioQueryService
+    public interface IIdentityQueryService
     {
         Task<DataCollection<UsuarioDto>> GetAllAsync(int page, int take, IEnumerable<int> users = null);
         Task<UsuarioDto> GetAsync(int id);
     }
 
-    public class UsuarioQueryService: IUsuarioQueryService
+    public class IdentityQueryService: IIdentityQueryService
     {
         private ApplicationDbContext _context;
         
-        public UsuarioQueryService(ApplicationDbContext context)
+        public IdentityQueryService(ApplicationDbContext context)
         {
             _context = context;
         }

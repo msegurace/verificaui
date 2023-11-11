@@ -3,7 +3,7 @@
 namespace Users.Api.Controllers
 {
     [ApiController]
-    [Route("users/v1")]
+    [Route("/")]
     public class DefaultController:ControllerBase
     {
         private readonly ILogger<DefaultController> _logger;

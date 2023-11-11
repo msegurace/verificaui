@@ -1,6 +1,9 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
+using System.Text;
 using Users.Persistence.Database;
 using Users.Service.Queries;
 
@@ -26,6 +29,22 @@ builder.Services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationDbContext>(o
 var mediaConf = new MediatRServiceConfiguration();
 mediaConf.RegisterServicesFromAssembly(Assembly.Load("User.Service.EventHandlers"));
 builder.Services.AddMediatR(mediaConf);
+
+var secretKey = Encoding.ASCII.GetBytes(
+               builder.Configuration?.GetValue<string>("JWTKey")!
+           );
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(x =>
+{
+    x.RequireHttpsMetadata = false;
+    x.SaveToken = true;
+    x.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(secretKey),
+        ValidateIssuer = false,
+        ValidateAudience = false
+    };
+});
 
 
 var app = builder.Build();
