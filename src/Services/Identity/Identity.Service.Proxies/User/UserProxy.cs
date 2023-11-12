@@ -14,6 +14,7 @@ namespace Identity.Service.Proxies.User
     public interface IUserProxy
     {
         Task<UsuarioDto> LoginAsync(LoginInformation info);
+        Task<string> AuthAsync(LoginInformation info);
     }
     public class UserProxy:IUserProxy
     {
@@ -26,6 +27,19 @@ namespace Identity.Service.Proxies.User
             httpClient.BaseAddress = new Uri(_apiUrls.UserUrl!);
             _httpClient = httpClient;
 
+        }
+
+        public async Task<string> AuthAsync(LoginInformation info)
+        {
+            var content = new StringContent(
+                JsonSerializer.Serialize(info),
+                Encoding.UTF8,
+                new MediaTypeHeaderValue("application/json")
+            );
+
+            var request = await _httpClient.PostAsync("/v1/users/login", content);
+            request.EnsureSuccessStatusCode();
+            return await request.Content.ReadAsStringAsync();
         }
 
         public async Task<UsuarioDto> LoginAsync(LoginInformation info)
@@ -43,7 +57,7 @@ namespace Identity.Service.Proxies.User
                 var resp = await request.Content.ReadAsStringAsync();
                 user = JsonSerializer.Deserialize<UsuarioDto>(resp);
             }
-            return user;
+            return user!;
         }
     }
 }

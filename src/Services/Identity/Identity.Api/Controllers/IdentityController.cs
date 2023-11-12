@@ -24,27 +24,16 @@ namespace Identity.Api.Controllers
             _jwtAuthenticationService = jwtAuthenticationService;
         }
 
-        [HttpPost("login")]
-        public async Task<IActionResult> LoginAsync([FromBody] LoginInformation info)
+        [HttpPost("auth")]
+        public async Task<string> AuthAsync([FromBody] LoginInformation info)
         {
-            if (info != null)
-            {
-                var user = await _userProxy.LoginAsync(info);
-                if (user != null)
-                {
-                    var token = _jwtAuthenticationService.GenerateToken(user);
-                    return Ok(token);
-                }
-                else
-                {
-                    return BadRequest("Access denied");
-                }                
-            }
-            else
-            {
-                return BadRequest();
-            }
+            return await _userProxy.AuthAsync(info);
         }
-      
+
+        [HttpPost("login")]
+        public async Task<UsuarioDto> LoginAsync([FromBody] LoginInformation info)
+        {
+            return await _userProxy.LoginAsync(info);
+        }
     }
 }

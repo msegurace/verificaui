@@ -1,0 +1,18 @@
+<p>header works!</p>
+
+<!-- NO AUTH REQUIRED -->
+<div *ngIf="showNoAuthSection">
+  <button (click)="home()">Inicio</button>
+  <button (click)="login()">Iniciar sesión</button>
+  <button (click)="register()">Registro</button>
+</div>
+
+<!-- AUTH REQUIRED -->
+<div *ngIf="showAuthSection">
+  <button (click)="home()">Inicio</button>
+  <button (click)="login()">Iniciar sesión</button>
+  <button (click)="register()">Registr</button>
+  <button (click)="manageApps()">Gestión de aplicaciones</button>
+  <button (click)="manageUsers()">Gestión de usuarios</button>
+  <button (click)="logout()">Salir</button>
+</div>

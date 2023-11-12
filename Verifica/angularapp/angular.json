@@ -68,7 +68,7 @@
           },
           "defaultConfiguration": "development",
           "options": {
-            "proxyConfig": "src/proxy.conf.js"
+            "proxyConfig": "./proxy.conf.json"
           }
         },
         "extract-i18n": {
@@ -100,6 +100,6 @@
     }
   },
   "cli": {
-    "analytics": "c448ed45-e0e0-484f-aba1-b0803c89633f"
+    "analytics": false
   }
 }

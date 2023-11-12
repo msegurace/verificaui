@@ -19,9 +19,15 @@ namespace Api.Gateway.SPAClient.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<string> LoginAsync([FromBody] LoginInformation info)
+        public async Task<UsuarioDto> LoginAsync([FromBody] LoginInformation info)
         {
             return await _identityProxy.LoginAsync(info);
+        }
+
+        [HttpPost("auth")]
+        public async Task<string> AuthAsync([FromBody] LoginInformation info)
+        {
+            return await _identityProxy.AuthAsync(info);
 
         }
     }

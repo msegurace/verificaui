@@ -1,0 +1,32 @@
+<p>
+  <div style="margin-left: auto; margin-right: auto">
+    <p id="loginFeedback"></p>
+  </div>
+  <div>
+    <h1>Login</h1>
+    <form [formGroup]="loginForm!" (ngSubmit)="login()">
+      <div>
+        <label for="username">Username: </label>
+        <input type="text" [formControl]="username!" />
+      </div>
+
+      <div>
+        <label for="password">Password: </label>
+        <input type="password" [formControl]="password!" />
+      </div>
+
+      <button type="submit" [disabled]="!loginForm!.valid">Login</button>
+    </form>
+  </div>
+
+  <div *ngIf="username!.errors">
+    <span style="color: red" *ngIf="username!.errors && (username!.touched || username!.dirty)">
+      
+    </span>
+  </div>
+
+  <div *ngIf="password!.errors">
+    <span style="color: red" *ngIf="password!.errors && (password!.touched || password!.dirty)">
+      
+    </span>
+  </div>
