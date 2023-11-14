@@ -1,8 +1,0 @@
-  {
-    "/identity": {
-      "target": "https://localhost:10000",
-      "secure": false,
-      "changeOrigin": false,
-      "logLevel": "debug"
-    }    
-  }

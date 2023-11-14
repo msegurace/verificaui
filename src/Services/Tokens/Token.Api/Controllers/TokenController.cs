@@ -11,7 +11,7 @@ namespace Users.Api.Controllers
 {
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
-    [Route("tokens/v1")]
+    [Route("v1/tokens")]
     public class TokenController:ControllerBase
     {
         private readonly ILogger<TokenController> _logger;
@@ -61,10 +61,27 @@ namespace Users.Api.Controllers
 
         }
 
-        [HttpPost("modify")]
+        [HttpPost("accept")]
         [ProducesResponseType(typeof(IActionResult), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Modify(TokenModifyCommand command)
+        public async Task<IActionResult> AcceptToken(TokenAcceptCommand command)
+        {
+            try
+            {
+                await _mediator.Publish(command);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+
+        }
+
+        [HttpPost("reject")]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> RejectToken(TokenRejectCommand command)
         {
             try
             {

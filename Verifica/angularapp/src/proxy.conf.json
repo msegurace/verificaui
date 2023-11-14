@@ -1,0 +1,32 @@
+{
+  "/apps": {
+    "target": "https://localhost:20002",
+    "secure": false,
+    "changeOrigin": false,
+    "logLevel": "debug"
+  },
+  "/login": {
+    "target": "https://localhost:10000",
+    "secure": false,
+    "changeOrigin": false,
+    "logLevel": "debug"
+  },
+  "/auth": {
+    "target": "https://localhost:10000",
+    "secure": false,
+    "changeOrigin": false,
+    "logLevel": "debug"
+  },
+  "/users": {
+    "target": "https://localhost:20001",
+    "secure": false,
+    "changeOrigin": false,
+    "logLevel": "debug"
+  },
+  "/tokens": {
+    "target": "https://localhost:20003",
+    "secure": false,
+    "changeOrigin": false,
+    "logLevel": "debug"
+  }
+}

@@ -28,7 +28,7 @@ const routes: Routes = [
       import('./Components/home/home.module').then((m) => m.HomeModule),
   },
   {
-    path: 'applist',
+    path: 'apps',
     loadChildren: () =>
       import('./Components/app-list/app-list.module').then(
         (m) => m.AppListModule
@@ -80,6 +80,11 @@ const routes: Routes = [
       ),
     canActivate: [AuthGuard],
   },
+  {
+    path: 'auth',
+    loadChildren: () =>
+      import('./Components/login/login.module').then((m) => m.LoginModule),    
+  }
 ];
 
 @NgModule({

@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Gateway.SPAClient.Controllers
 {
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [Route("applications")]
+    [Route("apps")]
     [ApiController]
     public class ApplicationController : ControllerBase
     {
@@ -40,7 +40,7 @@ namespace Api.Gateway.SPAClient.Controllers
 
         }
 
-        [HttpPost("modify/{id}")]
+        [HttpPost("modify")]
         public async Task<bool> ModifyAsync(ApplicationModifyCommand command)
         {
             return await _ApplicationProxy!.ModifyAsync(command);

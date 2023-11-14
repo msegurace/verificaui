@@ -19,7 +19,6 @@ namespace Token.Service.EventHandlers
             _context.Update(new Token2FA
             {
                 id = command.id,
-                creado = command.creado,
                 aceptado = command.aceptado,
                 idaplicacion = command.idaplicacion,
                 idusuario = command.idusuario,

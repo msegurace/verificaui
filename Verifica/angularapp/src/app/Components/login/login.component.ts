@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HeaderMenusService } from 'src/app/Services/header-menus.service';
-import { Observable, throwError } from 'rxjs';
+import { Observable, catchError, firstValueFrom, throwError } from 'rxjs';
 import { UsuarioDto } from '../../Models/usuario.dto';
 import { LoginService } from '../../Services/login.service';
 import { SharedService } from '../../Services/shared.service';
@@ -21,7 +21,7 @@ import { HeaderMenus } from '../../Models/header-menu.dto';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  loginUser$?: Observable<UsuarioDto>;
+  loginUser?: UsuarioDto;
   loginInformation: LoginInformation;
   username?: FormControl;
   password?: FormControl;
@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
     this.loginInformation.password = this.password!.value;
     try {
       await this.handleLogin();
-      this.responseOK = this.loginUser$ != null;
+      this.responseOK = this.loginUser != null;
     } catch (error: any) {
       this.responseOK = false;
       console.log('login error: ' + error.error);
@@ -76,8 +76,13 @@ export class LoginComponent implements OnInit {
 
   handleLogin = async () => {
     try {
-      await this.authService.login(this.loginInformation);
-      //console.log(this.loginUser$);
+
+      await this.authService.login(this.loginInformation)
+        .then(user => {
+          this.loginUser = user;
+          sessionStorage.setItem('username', this.loginUser!.username);
+        })
+        .catch(error => throwError(() => error));
     } catch (error: any) {
       throwError(() => error);
     }

@@ -1,3 +1,10 @@
-<p>List All posts</p>
+<p>Listado Aplicaciones</p>
 
-
+<div style="text-align: center">
+  <div *ngFor="let app of apps" class="card">
+      <b>Descripción: {{ app.descripcion }}</b>
+      <p>Url: {{ app.url }}</p>
+      <p>Origen: {{ app.origen }}</p>
+      <p>Clasificación ENS: {{ app.clasificacion_ens }}</p>
+  </div>
+</div>

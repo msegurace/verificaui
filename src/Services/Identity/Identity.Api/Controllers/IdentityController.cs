@@ -27,7 +27,13 @@ namespace Identity.Api.Controllers
         [HttpPost("auth")]
         public async Task<string> AuthAsync([FromBody] LoginInformation info)
         {
-            return await _userProxy.AuthAsync(info);
+            var user = await _userProxy.LoginAsync(info);
+            var token = string.Empty;
+            if (user != null)
+            {
+                token =_jwtAuthenticationService.GenerateToken(user);
+            }
+            return token;
         }
 
         [HttpPost("login")]

@@ -42,7 +42,7 @@ namespace Api.Gateway.SPAClient.Controllers
 
         }
 
-        [HttpPost("modify/{id}")]
+        [HttpPost("modify")]
         public async Task<bool> ModifyAsync(UserModifyCommand command)
         {
             return await _userProxy!.ModifyAsync(command);

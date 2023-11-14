@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Gateway.SPAClient.Controllers
 {
     [ApiController]
-    [Route("identity")]
+    [Route("/")]
     public class IdentityController : ControllerBase
     {
         private readonly ILogger<DefaultController> _logger;

@@ -22,6 +22,8 @@ namespace Api.Gateways.Proxies
         Task<Token2FADto> GetAsync(int id);
         Task<bool> CreateAsync(TokenCreateCommand command);
         Task<bool> ModifyAsync(TokenModifyCommand command);
+        Task<bool> AcceptAsync(TokenAcceptCommand command);
+        Task<bool> RejectAsync(TokenRejectCommand command);
     }
     public class TokenProxy: ITokenProxy
     {
@@ -42,7 +44,7 @@ namespace Api.Gateways.Proxies
         [HttpGet("getall")]
         public async Task<DataCollection<Token2FADto>> GetAllAsync(int page = 1, int take = 10, string? ids = null)
         {
-            var request = await _httpClient.GetAsync($"v1/users/getall/?page={page}&take={take}");
+            var request = await _httpClient.GetAsync($"v1/tokens/getall/?page={page}&take={take}");
             request.EnsureSuccessStatusCode();
 
             return JsonSerializer.Deserialize<DataCollection<Token2FADto>>(
@@ -57,7 +59,7 @@ namespace Api.Gateways.Proxies
         [HttpGet("get/{id}")]
         public async Task<Token2FADto> GetAsync(int id)
         {
-            var request = await _httpClient.GetAsync($"v1/users/get/{id}");
+            var request = await _httpClient.GetAsync($"v1/tokens/get/{id}");
             request.EnsureSuccessStatusCode();
 
             return JsonSerializer.Deserialize<Token2FADto>(
@@ -80,7 +82,7 @@ namespace Api.Gateways.Proxies
                  new MediaTypeHeaderValue("application/json")
              );
 
-            var request = await _httpClient.PostAsync("v1/users/add", content);
+            var request = await _httpClient.PostAsync("v1/tokens/add", content);
             request.EnsureSuccessStatusCode();
             return true;
 
@@ -97,11 +99,43 @@ namespace Api.Gateways.Proxies
                new MediaTypeHeaderValue("application/json")
            );
 
-            var request = await _httpClient.PostAsync("v1/users/modify", content);
+            var request = await _httpClient.PostAsync("v1/tokens/modify", content);
             request.EnsureSuccessStatusCode();
             return true;
         }
 
+        [HttpPost("accept")]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<bool> AcceptAsync(TokenAcceptCommand command)
+        {
+            var content = new StringContent(
+                 JsonSerializer.Serialize(command),
+                 Encoding.UTF8,
+                 new MediaTypeHeaderValue("application/json")
+             );
 
+            var request = await _httpClient.PostAsync("v1/tokens/accept", content);
+            request.EnsureSuccessStatusCode();
+            return true;
+
+        }
+
+        [HttpPost("reject")]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<bool> RejectAsync(TokenRejectCommand command)
+        {
+            var content = new StringContent(
+                 JsonSerializer.Serialize(command),
+                 Encoding.UTF8,
+                 new MediaTypeHeaderValue("application/json")
+             );
+
+            var request = await _httpClient.PostAsync("v1/tokens/reject", content);
+            request.EnsureSuccessStatusCode();
+            return true;
+
+        }
     }
 }
