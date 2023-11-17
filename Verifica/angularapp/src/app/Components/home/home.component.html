@@ -1,10 +1,24 @@
-<p>Listado Aplicaciones</p>
+<div class="content">
+  <div fxLayout="row wrap" fxLayoutGap="16px grid">
+    <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let app of apps">
+      <mat-card class="mat-elevation-z4" fxLayout="column" fxLayoutAlign="center">
+        <mat-card-header style="margin:0 auto;">
+          <mat-card-title>APLICACION {{app.id}}</mat-card-title>
+          <mat-card-subtitle>Descripción: {{app.descripcion}}</mat-card-subtitle> 
+        </mat-card-header>
+        <mat-card-content>
+          <p>Url: {{ app.url }}</p>
+          <p>Origen: {{ app.origen }}</p>
+          <p>Clasificación ENS: {{ app.clasificacion_ens }}</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button class="btn btn-success" mat-button
+                  [routerLink]="['/app', app.id]">
+            DETAILS
+          </button>
+        </mat-card-actions>
 
-<div style="text-align: center">
-  <div *ngFor="let app of apps" class="card">
-      <b>Descripción: {{ app.descripcion }}</b>
-      <p>Url: {{ app.url }}</p>
-      <p>Origen: {{ app.origen }}</p>
-      <p>Clasificación ENS: {{ app.clasificacion_ens }}</p>
+      </mat-card>
+    </div>
   </div>
 </div>

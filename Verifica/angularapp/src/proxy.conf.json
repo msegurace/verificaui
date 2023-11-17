@@ -1,12 +1,12 @@
 {
   "/apps": {
-    "target": "https://localhost:20002",
+    "target": "https://evgc001f01-0005.gobcan.net:20002",
     "secure": false,
     "changeOrigin": false,
     "logLevel": "debug"
   },
   "/login": {
-    "target": "https://localhost:10000",
+    "target": "https://evgc001f01-0005.gobcan.net:10000",
     "secure": false,
     "changeOrigin": false,
     "logLevel": "debug"

@@ -1,0 +1,34 @@
+.content {
+  padding: 16px;
+}
+.mat-mdc-card {
+  background-color: #577B94;
+  position: relative;
+  color: white;
+  margin: 0 auto;
+}
+.mat-mdc-card-header {
+  display: flex;
+  padding: 16px 16px 0;
+  text-align: center;
+}
+
+.mat-mdc-card-title {
+  color: white;
+  margin: 0 auto;
+}
+
+.mat-mdc-card-subtitle {
+    color: white;
+    margin: 0 auto;
+}
+
+.mat-mdc-card-content {
+  display: block;
+  padding: 30px 50px;
+}
+
+.mdc-card__actions {
+    margin: 0 10px 0 auto;
+}
+

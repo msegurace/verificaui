@@ -5,14 +5,17 @@ import { HeaderMenusService } from 'src/app/Services/header-menus.service';
 import { AplicacionDto } from '../../Models/aplicacion.dto';
 import { ApplicationService } from '../../Services/application.service';
 import { SharedService } from '../../Services/shared.service';
+import { Observable } from 'rxjs';
+import { GenericResponse } from '../../Models/GenericResponse';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+  styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
-  apps!: AplicacionDto[];
+  response?: GenericResponse;
+  apps?: AplicacionDto[] ;
   showButtons: boolean = false;
 
   constructor(
@@ -39,7 +42,13 @@ export class HomeComponent {
       this.showButtons = true;
     }
     try {
-      this.apps = await this.appService.getall();
+      await this.appService.getall().then(
+        resp => {
+          this.response = resp;
+          this.apps = resp.items;
+        }
+      );
+      
     } catch (error: any) {
       this.handleError(error.error);
     }

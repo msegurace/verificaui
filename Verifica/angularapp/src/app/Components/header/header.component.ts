@@ -7,7 +7,7 @@ import { HeaderMenusService } from 'src/app/Services/header-menus.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
+  styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
   showAuthSection: boolean;

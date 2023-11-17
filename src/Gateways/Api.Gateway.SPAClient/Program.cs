@@ -48,12 +48,9 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowAllGobCan,
                       policy =>
                       {
-                          policy.WithOrigins(
-                              "https://localhost:4200",
-                              "http://localhost:4200")
+                          policy.WithOrigins("*")
                                 .AllowAnyHeader()
-                                .AllowAnyMethod()
-                                .AllowCredentials();
+                                .AllowAnyMethod();
                       });
 });
 
@@ -65,6 +62,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+else
+{
+    app.UseHsts();
+}
+
+app.UseCors(MyAllowAllGobCan);
 
 app.UseHttpsRedirection();
 

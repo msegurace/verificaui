@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
 import { AplicacionDto } from '../Models/aplicacion.dto';
 import { environment } from '../../environments/environment';
 import { constants } from '../constants';
+import { GenericResponse } from '../Models/GenericResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,6 @@ export class ApplicationService {
   }
 
   async getall() {
-    return firstValueFrom(this.http.get<AplicacionDto[]>(constants.appsUrl))
+    return firstValueFrom(this.http.get<GenericResponse>(constants.BASE_URL + constants.appsUrl + "/getall?page=1&take=10"));
   }
 }
