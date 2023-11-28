@@ -1,32 +1,49 @@
-<p>
-  <div style="margin-left: auto; margin-right: auto">
-    <p id="loginFeedback"></p>
+<div fxLayout="row" fxLayout-xs="column" fxLayout-margin="30px" fxLayoutAlign="center center">
+  <div class="img-container" fxHide fxShow.gt-md fxFlex="60">
+    <img src="../../../assets/img/inicio_sesion.jfif" />
   </div>
-  <div>
-    <h1>Login</h1>
-    <form [formGroup]="loginForm!" (ngSubmit)="login()">
-      <div>
-        <label for="username">Username: </label>
-        <input type="text" [formControl]="username!" />
-      </div>
-
-      <div>
-        <label for="password">Password: </label>
-        <input type="password" [formControl]="password!" />
-      </div>
-
-      <button type="submit" [disabled]="!loginForm!.valid">Login</button>
-    </form>
+  <div fxFlex="">
+    <div style="margin-left: auto; margin-right: auto">
+      <p id="loginFeedback"></p>
+    </div>
+    <mat-card >
+      <mat-card-title>Inicio de Sesión</mat-card-title>
+      <mat-card-content>
+        <form [formGroup]="loginForm!" (ngSubmit)="login()">
+          <div fxLayout="column">
+            <mat-error *ngIf="!responseOK">
+              Usuario y/o contraseña no válido.
+            </mat-error>
+            <mat-form-field>
+              <mat-label>Usuario:</mat-label>
+              <input matInput placeholder="Usuario" [formControl]="username!" name="username" required>
+              <mat-error *ngIf="this.loginForm!.get('username')?.touched && this.loginForm!.get('username')?.hasError('required')">
+                El usuario es un campo requerido.
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Contraseña:</mat-label>
+              <input matInput type="password" placeholder="Contraseña" [formControl]="password!" name="password" required>
+              <mat-error *ngIf="this.loginForm!.get('password')?.touched && this.loginForm!.get('password')?.hasError('required')">
+                La contraseña es un campo requerido.
+              </mat-error>
+            </mat-form-field>
+            <div fxLayoutAlign="center">
+              <a [routerLink]="['/registeruser']">Recordar Contraseña</a>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="center center">
+              <div fxFlex="" fxLayoutAlign="start">
+                <a [routerLink]="['/registeruser']">Registro</a>
+              </div>
+              <div fxFlex="" fxLayoutAlign="end">
+                <button mat-raised-button color="primary" [disabled]="!loginForm!.valid">Enviar</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
   </div>
+</div>
 
-  <div *ngIf="username!.errors">
-    <span style="color: red" *ngIf="username!.errors && (username!.touched || username!.dirty)">
-      
-    </span>
-  </div>
-
-  <div *ngIf="password!.errors">
-    <span style="color: red" *ngIf="password!.errors && (password!.touched || password!.dirty)">
-      
-    </span>
-  </div>
+ 

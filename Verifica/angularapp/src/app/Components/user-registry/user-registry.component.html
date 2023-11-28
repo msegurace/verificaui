@@ -1,1 +1,86 @@
-<p>user-registry works!</p>
+<div fxLayout="row" fxLayout-xs="column" fxLayout-margin="30px" fxLayoutAlign="center center">
+  <div class="img-container" fxHide fxShow.gt-md fxFlex="60">
+    <img src="../../../assets/img/inicio_sesion.jfif" />
+  </div>
+  <div fxFlex="">      
+      <mat-card>
+        <mat-card-title>Registro de usuario</mat-card-title>
+        <mat-card-content>
+          <form [formGroup]="registerForm" (ngSubmit)="register()">
+            <div fxLayout="column">
+              <mat-form-field>
+                <mat-label>Nombre:</mat-label>
+                <input type="text" matInput placeholder="Nombre" formControlName="nombre">
+                <mat-error *ngIf="this.registerForm.get('nombre')?.touched && this.registerForm.get('nombre')?.hasError('required')">
+                  El nombre es un campo obligatorio.
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Primer apellido</mat-label>
+                <input type="text" matInput placeholder="Primer apellido" formControlName="apellido1">
+                <mat-error *ngIf="this.registerForm.get('apellido1')?.touched && this.registerForm.get('apellido1')?.hasError('required')">
+                  El apellido1 es un campo obligatorio.
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Segundo apellido</mat-label>
+                <input type="text" matInput placeholder="Segundo apellido" formControlName="apellido2">
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Correo electrónico</mat-label>
+                <input type="email" matInput placeholder="Correo electrónico" formControlName="email">
+                <mat-error *ngIf="this.registerForm.get('email')?.touched && this.registerForm.get('email')?.hasError('required')">
+                  Email is required
+                </mat-error>
+                <mat-error *ngIf="this.registerForm.get('email')?.touched && this.registerForm.get('email')?.hasError('email')">
+                  Email must be a valid Email
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Teléfono</mat-label>
+                <input type="text" matInput placeholder="Telefono" formControlName="telefono">
+                <mat-error *ngIf="this.registerForm.get('telefono')?.touched && this.registerForm.get('telefono')?.hasError('required')">
+                  El teléfono es un campo obligatorio.
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Código de usuario</mat-label>
+                <input type="text" matInput placeholder="Código de usuario" formControlName="username">
+                <mat-error *ngIf="this.registerForm.get('username')?.touched && this.registerForm.get('username')?.hasError('required')">
+                  El código del usuario es un campo obligatorio
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Contraseña</mat-label>
+                <input type="password" matInput placeholder="Contraseña" formControlName="password">
+                <mat-error *ngIf="this.registerForm.get('password')?.touched && this.registerForm.get('password')?.hasError('required')">
+                  La contraseña es un campo obligatorio
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field>
+                <mat-label>Repetir contraseña</mat-label>
+                <input type="password" matInput placeholder="Repetir contraseña" formControlName="passwordConfirm">
+                <mat-error *ngIf="this.registerForm.get('passwordConfirm')?.touched && this.registerForm.get('passwordConfirm')?.hasError('required')">
+                  Campo requerido.
+                </mat-error>
+              </mat-form-field>
+
+              <mat-error *ngIf="this.registerForm.get('passwordConfirm')?.dirty && this.registerForm.hasError('passwordsNotMatching')">
+                Las contraseñas no coinciden.
+              </mat-error>
+              <div fxLayout="row" fxLayoutAlign="center center">
+                <div fxFlex="80" fxLayoutAlign="end">
+                  <button type="reset" mat-raised-button color="warn">Cancelar</button>
+                </div>
+                <div fxFlex="20" fxLayoutAlign="end">
+                  <button type="submit" mat-raised-button color="primary" [disabled]="!registerForm.valid">Enviar</button>
+                </div>
+              </div>              
+            </div>
+          </form>
+        </mat-card-content>
+
+      </mat-card>
+    </div>
+  </div>

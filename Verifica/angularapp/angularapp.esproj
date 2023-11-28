@@ -12,6 +12,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="src\app\Directives\" />
+    <Folder Include="src\app\Validators\" />
     <Folder Include="src\app\Services\" />
     <Folder Include="src\assets\css\" />
     <Folder Include="src\environments\" />

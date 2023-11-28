@@ -1,6 +1,6 @@
 export class UsuarioDto {
-  id: number;
-  nombre: string;
+  id?: number;
+  nombre?: string;
   apellido1: string;
   apellido2: string;
   username: string;
@@ -11,7 +11,6 @@ export class UsuarioDto {
   admin: boolean;
 
   constructor(
-    id: number,
     nombre: string,
     apellido1: string,
     apellido2: string,
@@ -22,7 +21,6 @@ export class UsuarioDto {
     telefono: string,
     admin: boolean,
   ) {
-    this.id = id;
     this.nombre = nombre;
     this.apellido1 = apellido1;
     this.apellido2 = apellido2;

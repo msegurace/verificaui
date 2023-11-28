@@ -6,7 +6,7 @@ import {
   UntypedFormControl,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HeaderMenusService } from 'src/app/Services/header-menus.service';
 import { Observable, catchError, firstValueFrom, throwError } from 'rxjs';
 import { UsuarioDto } from '../../Models/usuario.dto';
@@ -14,9 +14,12 @@ import { LoginService } from '../../Services/login.service';
 import { SharedService } from '../../Services/shared.service';
 import { LoginInformation } from '../../Models/login-information.dto';
 import { HeaderMenus } from '../../Models/header-menu.dto';
+import { AplicacionDto } from '../../Models/aplicacion.dto';
+import { EvaluateRiskInformation } from '../../Models/evaluaterisk-information.dto';
+import { TokenService } from '../../Services/token.service';
 
 @Component({
-  selector: 'app-login',
+  selector: 'login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
@@ -28,13 +31,18 @@ export class LoginComponent implements OnInit {
   loginForm?: FormGroup;
   responseOK: boolean = false;
   errorResponse: any;
+  idApp?: number;
+  app?: AplicacionDto;
+  result2FA?: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: LoginService,
+    private tokenService: TokenService,
     private sharedService: SharedService,
     private headerMenusService: HeaderMenusService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
   ) {
     this.loginInformation = new LoginInformation('', '');
 
@@ -58,7 +66,9 @@ export class LoginComponent implements OnInit {
     });
   };
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    
+  }
 
   async login() {
     this.loginInformation.username = this.username!.value;
@@ -71,7 +81,25 @@ export class LoginComponent implements OnInit {
       console.log('login error: ' + error.error);
       this.handleLoginError(error);
     }
-    this.handleLoginToast();
+    await this.handle2FA();
+  }
+
+  handle2FA = async () => {
+    try {
+      const evaluateriskinfo: EvaluateRiskInformation = new EvaluateRiskInformation(
+        this.loginUser!.id!,
+        this.idApp!
+      );
+      await this.tokenService.evaluateRisk(evaluateriskinfo)
+        .then(resp => {
+          this.result2FA = resp;
+          this.handleLoginToast();
+        })
+        .catch(error => throwError(() => error));
+    } catch (error: any) {
+      throwError(() => error);
+    }
+
   }
 
   handleLogin = async () => {
@@ -98,6 +126,10 @@ export class LoginComponent implements OnInit {
     if (this.responseOK) {
       this.updateOptionsMenu();
     }
+
+    if (this.handle2FA!) {
+      this.router.navigateByUrl('/waitauth');
+    }
   };
 
   handleLoginError = (error: any) => {
@@ -117,7 +149,6 @@ export class LoginComponent implements OnInit {
       showNoAuthSection: false,
     };
     this.headerMenusService.headerManagement.next(headerInfo);
-    this.router.navigateByUrl('home');
   };
 
   private handleError = (errorResponse: any): void => {

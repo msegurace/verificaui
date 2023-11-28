@@ -2,6 +2,25 @@
   color: red;
 }
 
+.mat-mdc-card {
+    max-width: 70%;
+    padding: 20px;
+}
+
+@media (max-width: 600px) {
+  .mat-mdc-card {
+    max-width: 90%;
+  }
+}
+
+.img-container {
+    text-align: center;
+}
+.img-container > img {
+  max-width: 60%;
+  border-radius: 25%;
+}
+
 #loginFeedback {
   visibility: hidden;
   min-width: 250px;

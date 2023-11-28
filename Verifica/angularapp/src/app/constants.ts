@@ -5,5 +5,6 @@ export const constants = {
   loginUrl : 'login',
   authUrl : 'auth',
   appsUrl: 'apps',
-  usersUrl : 'users'
+  usersUrl: 'users',
+  tokensUrl: 'tokens'
 };

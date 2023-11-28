@@ -5,12 +5,6 @@
     "changeOrigin": false,
     "logLevel": "debug"
   },
-  "/login": {
-    "target": "https://evgc001f01-0005.gobcan.net:10000",
-    "secure": false,
-    "changeOrigin": false,
-    "logLevel": "debug"
-  },
   "/auth": {
     "target": "https://localhost:10000",
     "secure": false,

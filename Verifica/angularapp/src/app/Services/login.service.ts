@@ -16,6 +16,6 @@ export class LoginService {
 
   async login(info: LoginInformation) {
 
-    return firstValueFrom(this.http.post<UsuarioDto>(constants.loginUrl, info))
+    return firstValueFrom(this.http.post<UsuarioDto>(constants.BASE_URL + constants.loginUrl, info))
   }
 }

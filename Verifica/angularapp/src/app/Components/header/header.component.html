@@ -1,15 +1,41 @@
-<!-- NO AUTH REQUIRED -->
-<div *ngIf="showNoAuthSection">
-  <button (click)="home()">Inicio</button>
-  <button (click)="login()">Iniciar sesión</button>
-  <button (click)="register()">Registro</button>
-</div>
+<mat-toolbar width="100%" color="white">
+  <mat-toolbar-row>
+    <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm>
+      <mat-icon>menu</mat-icon>
+    </button>
+    <div fxLayout="row" fxLayoutAlign="center center" class="fullscreen" >
+      <div fxFlex="20" fxHide.lt-md  fxLayoutAlign="start">
+        <img src="../../../assets/img/logo.png" height="90" />
+      </div>
+    
+      <!-- The following menu items will be hidden on both SM and XS screen sizes -->
+        <div *ngIf="showNoAuthSection" fxFlex="80" fxShow="true" fxLayoutAlign="end" fxHide.lt-md>
+          <a href="/home" mat-button>Inicio</a>
+          <a href="/login" mat-button>Inicio de sesión</a>
+        </div>
+      <span class="menu-spacer"></span>
+    </div>
+    
+    
+</mat-toolbar-row>
+</mat-toolbar>
 
-<!-- AUTH REQUIRED -->
-<div *ngIf="showAuthSection">
-  <button (click)="home()">Inicio</button>
-  <button (click)="register()">Registar</button>
-  <button (click)="manageApps()">Gestión de aplicaciones</button>
-  <button (click)="manageUsers()">Gestión de usuarios</button>
-  <button (click)="logout()">Salir</button>
-</div>
+<mat-sidenav-container fxFlexFill>
+  <mat-sidenav #sidenav>
+    <mat-nav-list>
+      <a (click)="sidenav.toggle()" href="" mat-list-item>Close</a>
+      <div *ngIf="showNoAuthSection">
+        <a href="/home" mat-list-item>Inicio</a>
+        <a href="/login" mat-button>Inicio de sesión</a>
+      </div>
+      <div *ngIf="showAuthSection">
+        <a href="/home" mat-list-item>Inicio</a>
+        <a href="/applist" mat-list-item>Gestión de aplicaciones</a>
+        <a href="/userlist" mat-list-item>Gestión de usuarios</a>
+        <a href="/logout" mat-list-item>Salir</a>
+      </div>      
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content fxFlexFill><ng-content></ng-content></mat-sidenav-content>
+</mat-sidenav-container>
+

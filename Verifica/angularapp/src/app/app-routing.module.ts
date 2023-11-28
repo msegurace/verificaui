@@ -14,7 +14,7 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () =>
       import('./Components/login/login.module').then((m) => m.LoginModule),
-  },
+  },  
   {
     path: 'forgotpwd',
     loadChildren: () =>
@@ -53,8 +53,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('./Components/user-registry/user-registry.module').then(
         (m) => m.UserRegistryModule
-      ),
-    canActivate: [AuthGuard],
+      )
   },
   {
     path: 'waitauth',
@@ -80,11 +79,6 @@ const routes: Routes = [
       ),
     canActivate: [AuthGuard],
   },
-  {
-    path: 'auth',
-    loadChildren: () =>
-      import('./Components/login/login.module').then((m) => m.LoginModule),    
-  }
 ];
 
 @NgModule({

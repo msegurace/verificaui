@@ -17,4 +17,8 @@ export class ApplicationService {
   async getall() {
     return firstValueFrom(this.http.get<GenericResponse>(constants.BASE_URL + constants.appsUrl + "/getall?page=1&take=10"));
   }
+
+  async get(id: string) {
+    return firstValueFrom(this.http.get<GenericResponse>(constants.BASE_URL + constants.appsUrl + `/get?id=${id.trim()}page=1&take=10`));
+  }
 }
