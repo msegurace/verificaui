@@ -1,0 +1,9 @@
+.header,
+.dialog-message {
+  text-transform: lowercase;
+}
+
+.header::first-letter,
+.dialog-message::first-letter {
+  text-transform: uppercase;
+}

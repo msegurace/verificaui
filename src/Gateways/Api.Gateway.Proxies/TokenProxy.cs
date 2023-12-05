@@ -20,7 +20,7 @@ namespace Api.Gateways.Proxies
     {
         Task<DataCollection<Token2FADto>> GetAllAsync(int page = 1, int take = 10, string? ids = null);
         Task<Token2FADto> GetAsync(int id);
-        Task<bool> CreateAsync(TokenCreateCommand command);
+        Task<Token2FADto> CreateAsync(TokenCreateCommand command);
         Task<bool> ModifyAsync(TokenModifyCommand command);
         Task<bool> AcceptAsync(TokenAcceptCommand command);
         Task<bool> RejectAsync(TokenRejectCommand command);
@@ -74,7 +74,7 @@ namespace Api.Gateways.Proxies
         [HttpPost("add")]
         [ProducesResponseType(typeof(IActionResult), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<bool> CreateAsync(TokenCreateCommand command)
+        public async Task<Token2FADto> CreateAsync(TokenCreateCommand command)
         {
             var content = new StringContent(
                  JsonSerializer.Serialize(command),
@@ -84,7 +84,14 @@ namespace Api.Gateways.Proxies
 
             var request = await _httpClient.PostAsync("v1/tokens/add", content);
             request.EnsureSuccessStatusCode();
-            return true;
+
+            return JsonSerializer.Deserialize<Token2FADto>(
+                await request.Content.ReadAsStringAsync(),
+                new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                }
+             )!;
 
         }
 

@@ -1,1 +1,64 @@
-<p>app-registry works!</p>
+<div fxLayout="row" fxLayout-xs="column" fxLayout-margin="30px" fxLayoutAlign="center center">
+  <div class="img-container" fxHide fxShow.gt-md fxFlex="60">
+    <img src="../../../assets/img/inicio_sesion.jfif" />
+  </div>
+  <div fxFlex="">
+    <mat-card>
+      <mat-card-title>Registro de aplicaciones</mat-card-title>
+      <mat-card-content>
+        <form [formGroup]="registerForm" (ngSubmit)="register()">
+          <div fxLayout="column">
+            <mat-form-field>
+              <mat-label>Descripción</mat-label>
+              <input type="text" matInput placeholder="Descripción" formControlName="descripcion">
+              <mat-error *ngIf="this.registerForm.get('descripcion')?.touched && this.registerForm.get('descripcion')?.hasError('required')">
+                La descripción de la aplicación es un campo obligatorio.
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>URL</mat-label>
+              <input type="text" matInput placeholder="URL" formControlName="url">
+              <mat-error *ngIf="this.registerForm.get('url')?.touched && this.registerForm.get('url')?.hasError('required')">
+                La URL es un campo obligatorio.
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Origen</mat-label>
+              <select matNativeControl required formControlName="origen">
+                <option value="interna">Interna</option>
+                <option value="externa">Externa</option>
+              </select>
+              <mat-error *ngIf="this.registerForm.get('origen')?.touched && this.registerForm.get('origen')?.hasError('required')">
+                El origen es un campo obligatorio.
+              </mat-error>
+              <mat-hint>Elija el origen de la aplicación.</mat-hint>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Clasificación ENS</mat-label>
+              <select matNativeControl required formControlName="clasificacion">
+                <option value="alta">Alta</option>
+                <option value="media">Media</option>
+                <option value="baja">Baja</option>
+              </select>
+              <mat-error *ngIf="this.registerForm.get('clasificacion')?.touched && this.registerForm.get('clasificacion')?.hasError('required')">
+                La clasificación es un campo obligatorio.
+              </mat-error>
+              <mat-hint>Elija la clasificación de la aplicación.</mat-hint>
+            </mat-form-field>
+            <div fxLayout="row" fxLayoutAlign="center center">
+              <div fxFlex="25"></div>
+              <div fxFlex="25"></div>
+              <div fxFlex="25" fxLayoutAlign="end">
+                <button type="reset" mat-raised-button color="warn">Cancelar</button>
+              </div>
+              <div fxFlex="25" fxLayoutAlign="end">
+                <button type="submit" mat-raised-button color="primary" [disabled]="!registerForm.valid">Enviar</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </mat-card-content>
+
+    </mat-card>
+  </div>
+</div>

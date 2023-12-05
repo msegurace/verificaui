@@ -2,7 +2,10 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Service.Common.Collection;
+using Service.Common.Mapping;
+using Token.Persistence.Database;
 using Token.Service.EventHandlers.Commands;
 using Token.Service.Queries;
 using Token.Service.Queries.DTOs;
@@ -17,12 +20,17 @@ namespace Users.Api.Controllers
         private readonly ILogger<TokenController> _logger;
         private readonly ITokenQueryService _queryService;
         private IMediator _mediator;
+        private ApplicationDbContext _context;
 
-        public TokenController(ILogger<TokenController> logger, ITokenQueryService queryService, IMediator mediator)
+        public TokenController(ILogger<TokenController> logger, 
+            ITokenQueryService queryService, 
+            IMediator mediator,
+            ApplicationDbContext context)
         {
             _logger = logger;
             _queryService = queryService;
             _mediator = mediator;
+            _context = context;
         }
 
         [HttpGet("getall")]
@@ -46,16 +54,16 @@ namespace Users.Api.Controllers
         [HttpPost("add")]
         [ProducesResponseType(typeof(IActionResult), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Create(TokenCreateCommand command)
+        public async Task<Token2FADto> Create(TokenCreateCommand command)
         {
             try
             {
                 await _mediator.Publish(command);
-                return Ok();
+                return await _queryService.GetNewAsync(command.idaplicacion, command.idusuario);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return null;
             }
 
 

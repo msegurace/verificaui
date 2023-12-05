@@ -28,19 +28,18 @@ const routes: Routes = [
       import('./Components/home/home.module').then((m) => m.HomeModule),
   },
   {
-    path: 'apps',
+    path: 'applist',
     loadChildren: () =>
       import('./Components/app-list/app-list.module').then(
         (m) => m.AppListModule
       ),
-    canActivate: [AuthGuard]
+    //canActivate: [AuthGuard]
   },
   {
     path: 'registerapp',
     loadChildren: () =>
       import('./Components/app-registry/app-registry.module').then(
-        (m) => m.AppRegistryModule),
-      canActivate: [AuthGuard],
+        (m) => m.AppRegistryModule)
   },
   {
     path: 'userlist',
@@ -61,7 +60,7 @@ const routes: Routes = [
       import('./Components/wait-auth/waith-auth.module').then(
         (m) => m.WaitAuthModule
       ),
-    canActivate: [AuthGuard],
+   // canActivate: [AuthGuard],
   },
   {
     path: 'modifyuser/:id',

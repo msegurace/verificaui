@@ -31,9 +31,11 @@ export class LoginComponent implements OnInit {
   loginForm?: FormGroup;
   responseOK: boolean = false;
   errorResponse: any;
-  idApp?: number;
+  idApp?: number = 1;
   app?: AplicacionDto;
   result2FA?: boolean;
+  evaluateriskinfo?: EvaluateRiskInformation;
+  
 
   constructor(
     private formBuilder: FormBuilder,
@@ -76,26 +78,28 @@ export class LoginComponent implements OnInit {
     try {
       await this.handleLogin();
       this.responseOK = this.loginUser != null;
+      await this.handle2FA();
     } catch (error: any) {
       this.responseOK = false;
       console.log('login error: ' + error.error);
       this.handleLoginError(error);
     }
-    await this.handle2FA();
   }
 
   handle2FA = async () => {
     try {
-      const evaluateriskinfo: EvaluateRiskInformation = new EvaluateRiskInformation(
+      this.evaluateriskinfo = new EvaluateRiskInformation(
         this.loginUser!.id!,
         this.idApp!
       );
-      await this.tokenService.evaluateRisk(evaluateriskinfo)
+      await this.tokenService.evaluateRisk(this.evaluateriskinfo)
         .then(resp => {
           this.result2FA = resp;
           this.handleLoginToast();
         })
-        .catch(error => throwError(() => error));
+        .catch(error => throwError(() => {
+          console.log(error);
+        }));
     } catch (error: any) {
       throwError(() => error);
     }
@@ -110,7 +114,9 @@ export class LoginComponent implements OnInit {
           this.loginUser = user;
           sessionStorage.setItem('username', this.loginUser!.username);
         })
-        .catch(error => throwError(() => error));
+        .catch(error => throwError(() => {
+          console.log(error);
+        }));
     } catch (error: any) {
       throwError(() => error);
     }
@@ -126,12 +132,24 @@ export class LoginComponent implements OnInit {
     if (this.responseOK) {
       this.updateOptionsMenu();
     }
-
-    if (this.handle2FA!) {
-      this.router.navigateByUrl('/waitauth');
+    this.result2FA = true;
+    if (this.result2FA!) {
+      await this.tokenService.createToken(this.evaluateriskinfo!)
+        .then(resp => {
+          console.log('token: ' + resp)
+          this.router.navigate(['/waitauth'], {
+            state: { token: resp}
+          });
+       })
+        .catch(error => throwError(() => {
+          console.log(error);
+        }));
+      
+    } else {
+      this.router.navigateByUrl('/home');
     }
   };
-
+  
   handleLoginError = (error: any) => {
     this.responseOK = false;
     this.errorResponse = error.error;

@@ -5,6 +5,7 @@ using Service.Common.Paging;
 using System.Data;
 using Token.Persistence.Database;
 using Token.Service.Queries.DTOs;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Token.Service.Queries
 {
@@ -12,6 +13,7 @@ namespace Token.Service.Queries
     {
         Task<DataCollection<Token2FADto>> GetAllAsync(int page, int take, IEnumerable<int> users = null);
         Task<Token2FADto> GetAsync(int id);
+        Task<Token2FADto> GetNewAsync(int idApp, int idUsr);
     }
 
     public class TokenQueryService: ITokenQueryService
@@ -35,6 +37,17 @@ namespace Token.Service.Queries
         public async Task<Token2FADto> GetAsync(int id)
         {
             return (await _context.Tokens.SingleAsync(x => x.id == id)).MapTo<Token2FADto>();
+        }
+
+        public async Task<Token2FADto> GetNewAsync(int idApp, int idUsr)
+        {
+            var token = (await _context.Tokens
+                .Where(t => t.idaplicacion == idApp &&
+                    t.idusuario == idUsr && t.creado > DateTime.Now.AddMinutes(-5))
+                .OrderByDescending(o => o.id)
+                .FirstOrDefaultAsync())
+                  .MapTo<Token2FADto>();
+            return token;
         }
     }
 }

@@ -1,0 +1,66 @@
+<div>
+  <h1 mat-dialog-title>{{action}}</h1>
+</div>
+
+<form novalidate (ngSubmit)="onSubmit()" [formGroup]="tableForm" role="form">
+
+  <div mat-dialog-content>
+    <div fxLayout="row wrap" fxLayoutAlign="space-between stretch">
+      <div fxFlex="100">
+        <mat-form-field style="width: 100%;">
+          <input type="text" matInput placeholder="Descripción" formControlName="descripcion">
+          <mat-error>
+            {{errors['descripcion']}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div fxLayout="row wrap" fxLayoutAlign="space-between stretch">
+      <div fxFlex="100">
+        <mat-form-field style="width: 100%;">
+          <input type="text" matInput placeholder="URL" formControlName="url">
+          <mat-error *ngIf="this.tableForm.get('url')?.touched && this.tableForm.get('url')?.hasError('required')">
+            {{errors['url']}}
+          </mat-error>
+          <mat-error *ngIf="this.tableForm.get('url')?.touched && this.tableForm.get('url')?.hasError('pattern')">
+            {{errors['url_malformed']}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row wrap" fxLayoutAlign="space-between stretch">
+        <div fxFlex="100">
+          <select matNativeControl required formControlName="origen">
+            <option value="interna">Interna</option>
+            <option value="externa">Externa</option>
+          </select>
+          <mat-error *ngIf="this.tableForm.get('origen')?.touched && this.tableForm.get('origen')?.hasError('required')">
+            {{errors['origen']}}
+          </mat-error>
+        </div>
+      </div>
+      <div fxLayout="row wrap" fxLayoutAlign="space-between stretch">
+        <div fxFlex="100">
+          <select matNativeControl required formControlName="clasificacion">
+            <option value="alta">Alta</option>
+            <option value="media">Media</option>
+            <option value="baja">Baja</option>
+          </select>
+          <mat-error *ngIf="this.tableForm.get('clasificacion')?.touched && this.tableForm.get('clasificacion')?.hasError('required')">
+            {{errors['clasificacion']}}
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+  <div mat-dialog-actions style="float: right;">
+    <div>
+      <button class="dialog-btn" mat-raised-button type="button" (click)="closeDialog()">{{cancel}}</button>
+      <button class="dialog-btn" mat-raised-button color="primary" type="submit"
+              [disabled]="tableForm.invalid">
+        {{action}}
+      </button>
+    </div>
+  </div>
+</div>
+</form>

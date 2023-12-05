@@ -21,4 +21,8 @@ export class ApplicationService {
   async get(id: string) {
     return firstValueFrom(this.http.get<GenericResponse>(constants.BASE_URL + constants.appsUrl + `/get?id=${id.trim()}page=1&take=10`));
   }
+
+  async register(app: AplicacionDto) {
+    return firstValueFrom(this.http.post<AplicacionDto>(constants.BASE_URL + constants.appsUrl + "/add", app))
+  }
 }

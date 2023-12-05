@@ -14,9 +14,8 @@ import { LoginInformation } from '../Models/login-information.dto';
   providedIn: 'root',
 })
 export class AuthInterceptorService implements HttpInterceptor {
-  
+  token: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwiZ2l2ZW5fbmFtZSI6Ik1PSVNFUyIsImZhbWlseV9uYW1lIjoiU0VHVVJBIENFRFJFUyIsImVtYWlsIjoibXNlZ2NlZEBtc2MuY29tIiwidW5pcXVlX25hbWUiOiJtc2VnY2VkIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvaG9tZXBob25lIjoiMTIzNDQzMjExIiwibmJmIjoxNzAxNzczMzM2LCJleHAiOjE3MDE4NTk3MzYsImlhdCI6MTcwMTc3MzMzNn0.ZOMX-Mt1LErHifDxBOf7PevNqiGLVJ87-VVV4p-SGTU';
   constructor() {
-    
   }
 
   intercept(
@@ -24,12 +23,12 @@ export class AuthInterceptorService implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     if (sessionStorage.getItem('token')) {
-      console.log('TENGO TOKEN: ' + sessionStorage.getItem('token'));
+      //console.log('TENGO TOKEN: ' + sessionStorage.getItem('token'));
       req = req.clone({
         setHeaders: {
           'Content-Type': 'application/json; charset=utf-8',
           Accept: 'application/json',
-          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+          Authorization: `Bearer ${this.token}`,
         },
       });
     }

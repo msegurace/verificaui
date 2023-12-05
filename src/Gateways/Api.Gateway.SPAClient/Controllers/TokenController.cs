@@ -38,7 +38,7 @@ namespace Api.Gateway.SPAClient.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<bool> CreateAsync(TokenCreateCommand command)
+        public async Task<Token2FADto> CreateAsync(TokenCreateCommand command)
         {
             return await _tokenProxy!.CreateAsync(command);
 

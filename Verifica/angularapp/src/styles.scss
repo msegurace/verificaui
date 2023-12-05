@@ -8,4 +8,32 @@ body {
 }
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0 auto;
+       font-family: Roboto, "Helvetica Neue", sans-serif;
+       max-width: 1600px;
+}
+
+.mat-mdc-card {
+  position: relative;
+  padding: 20px;
+  background-color: #577b94 !important;
+  color: white;
+  border-radius: 20px;
+}
+
+@media (max-width: 600px) {
+  .mat-mdc-card {
+    max-width: 90%;
+  }
+}
+
+
+.img-container {
+  text-align: center;
+}
+
+.img-container > img {
+  max-width: 60%;
+  border-radius: 25%;
+}
+
