@@ -7,6 +7,7 @@ import { ApplicationService } from '../../Services/application.service';
 import { SharedService } from '../../Services/shared.service';
 import { Observable } from 'rxjs';
 import { GenericResponse } from '../../Models/GenericResponse';
+import { LoginService } from '../../Services/login.service';
 
 @Component({
   selector: 'app-home',
@@ -17,10 +18,12 @@ export class HomeComponent {
   response?: GenericResponse;
   apps?: AplicacionDto[] ;
   showButtons: boolean = false;
+  isLoading: boolean = true;
 
   constructor(
     private appService: ApplicationService,
     private sharedService: SharedService,
+    private loginService: LoginService,
     private router: Router,
     private headerMenusService: HeaderMenusService
   ) {
@@ -44,13 +47,14 @@ export class HomeComponent {
     try {
       await this.appService.getall().then(
         resp => {
+          this.isLoading = false;
           this.response = resp;
           this.apps = resp.items;
         }
       );
       
     } catch (error: any) {
-      this.handleError(error.error);
+      this.handleError(error.message);
     }
   }
 

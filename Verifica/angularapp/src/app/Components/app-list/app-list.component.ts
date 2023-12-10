@@ -79,9 +79,8 @@ export class AppListComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private service: ApplicationService,
-    private alertService: AlertService
-  ) {
-    this.paginator
+    private alertService: AlertService) {
+    
   }
 
   ngOnInit(): void {

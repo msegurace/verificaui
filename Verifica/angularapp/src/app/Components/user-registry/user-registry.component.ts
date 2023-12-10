@@ -14,15 +14,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class UserRegistryComponent {
   registerForm = new FormGroup({
-    nombre: new FormControl<string>("", [Validators.required]),
-    apellido1: new FormControl<string>("", [Validators.required]),
-    apellido2: new FormControl<string>(""),
-    username: new FormControl<string>("", [Validators.required]),
-    password: new FormControl<string>("", [Validators.required]),
-    passwordConfirm: new FormControl<string>("", [Validators.required]),
-    guid: new FormControl<string>(""),
-    email: new FormControl<string>("", [Validators.required, Validators.email]),
-    telefono: new FormControl<string>("", [Validators.required]),
+    nombre: new FormControl<string>("JORGE", [Validators.required]),
+    apellido1: new FormControl<string>("SANCHEZ", [Validators.required]),
+    apellido2: new FormControl<string>("SANCHEZ"),
+    username: new FormControl<string>("jsansan", [Validators.required]),
+    password: new FormControl<string>("jsansan", [Validators.required]),
+    passwordConfirm: new FormControl<string>("jsansan", [Validators.required]),
+    email: new FormControl<string>("jsansan@canarias.org", [Validators.required, Validators.email]),
+    telefono: new FormControl<string>("111222333", [Validators.required]),
     admin: new FormControl<string>("")
   },
     // add custom Validators to the form, to make sure that password and passwordConfirm are equal
@@ -46,7 +45,6 @@ export class UserRegistryComponent {
       this.registerForm.value.apellido2!,
       this.registerForm.value.username!,
       this.registerForm.value.password!,
-      this.registerForm.value.guid!,
       this.registerForm.value.email!,
       this.registerForm.value.telefono!,
       false
@@ -56,12 +54,13 @@ export class UserRegistryComponent {
       await this.userService.register(user)
         .then(u => {
           this.snackbar.open(`User created successfully`, 'Close', {
-            duration: 2000, horizontalPosition: 'right', verticalPosition: 'top'
-          })
+            duration: 3000, horizontalPosition: 'right', verticalPosition: 'top'
+          });
+          this.router.navigateByUrl('/home');
         })
-        .catch(error => {
-          this.snackbar.open(`ERROR Creating user ${error}`, 'Close', {
-            duration: 2000, horizontalPosition: 'right', verticalPosition: 'top'
+        .catch((error) => {
+          this.snackbar.open(`ERROR Creando al usuario ${error.json()}`, 'Close', {
+            duration: 3000, horizontalPosition: 'right', verticalPosition: 'top'
           })
         });
     } catch (error: any) {

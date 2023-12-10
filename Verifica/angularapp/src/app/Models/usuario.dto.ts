@@ -5,7 +5,7 @@ export class UsuarioDto {
   apellido2: string;
   username: string;
   password: string;
-  guid: string;
+  guid?: string;
   email: string;
   telefono: string;
   admin: boolean;
@@ -16,7 +16,6 @@ export class UsuarioDto {
     apellido2: string,
     username: string,
     password: string,
-    guid: string,
     email: string,
     telefono: string,
     admin: boolean,
@@ -26,7 +25,6 @@ export class UsuarioDto {
     this.apellido2 = apellido2;
     this.username = username;
     this.password = password;
-    this.guid = guid;
     this.email = email;
     this.telefono = telefono;
     this.admin = admin;

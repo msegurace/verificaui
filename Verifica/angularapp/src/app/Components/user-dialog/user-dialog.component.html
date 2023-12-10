@@ -1,0 +1,97 @@
+<div>
+  <h1 mat-dialog-title>{{action}}</h1>
+</div>
+
+<form novalidate (ngSubmit)="onSubmit()" [formGroup]="tableForm" role="form">
+
+  <div mat-dialog-content class="userDialog">
+    <div fxLayout="row wrap" fxLayoutAlign="space-between stretch">
+      <div fxFlex="100">
+        <mat-form-field>
+          <mat-label>Nombresss:</mat-label>
+          <input type="text" matInput placeholder="Nombre" formControlName="nombre">
+          <mat-error *ngIf="this.tableForm.get('nombre')?.touched && this.tableForm.get('nombre')?.hasError('required')">
+            El nombre es un campo obligatorio.
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div fxLayout="row wrap" fxLayoutAlign="space-between stretch">
+      <div fxFlex="100">
+        <mat-form-field>
+          <mat-label>Primer apellido</mat-label>
+          <input type="text" matInput placeholder="Primer apellido" formControlName="apellido1">
+          <mat-error *ngIf="this.tableForm.get('apellido1')?.touched && this.tableForm.get('apellido1')?.hasError('required')">
+            El apellido1 es un campo obligatorio.
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+      <div fxLayout="row wrap" fxLayoutAlign="space-between stretch">
+        <div fxFlex="100">
+          <mat-form-field>
+            <mat-label>Segundo apellido</mat-label>
+            <input type="text" matInput placeholder="Segundo apellido" formControlName="apellido2">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="row wrap" fxLayoutAlign="space-between stretch">
+        <div fxFlex="100">
+          <mat-form-field>
+            <mat-label>Correo electrónico</mat-label>
+            <input type="email" matInput placeholder="Correo electrónico" formControlName="email">
+            <mat-error *ngIf="this.tableForm.get('email')?.touched && this.tableForm.get('email')?.hasError('required')">
+              Email is required
+            </mat-error>
+            <mat-error *ngIf="this.tableForm.get('email')?.touched && this.tableForm.get('email')?.hasError('email')">
+              Email must be a valid Email
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+
+      <div fxLayout="row wrap" fxLayoutAlign="space-between stretch">
+        <div fxFlex="100">
+          <mat-form-field>
+            <mat-label>Teléfono</mat-label>
+            <input type="text" matInput placeholder="Telefono" formControlName="telefono">
+            <mat-error *ngIf="this.tableForm.get('telefono')?.touched && this.tableForm.get('telefono')?.hasError('required')">
+              El teléfono es un campo obligatorio.
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div fxLayout="row wrap" fxLayoutAlign="space-between stretch">
+        <div fxFlex="100">
+          <mat-form-field>
+            <mat-label>Código de usuario</mat-label>
+            <input type="text" matInput placeholder="Código de usuario" formControlName="username">
+            <mat-error *ngIf="this.tableForm.get('username')?.touched && this.tableForm.get('username')?.hasError('required')">
+              El código del usuario es un campo obligatorio
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="row wrap" fxLayoutAlign="space-between stretch">
+        <div fxFlex="100">
+          <mat-form-field>
+            <mat-label>Guid</mat-label>
+            <input type="text" matInput placeholder="Guid" formControlName="guid">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div mat-dialog-actions style="float: right;">
+        <div>
+          <button class="dialog-btn" mat-raised-button type="button" (click)="closeDialog()">{{cancel}}</button>
+          <button class="dialog-btn" mat-raised-button color="primary" type="submit"
+                  [disabled]="tableForm.invalid">
+            {{action}}
+          </button>
+        </div>
+      </div>
+    </div>
+</form>

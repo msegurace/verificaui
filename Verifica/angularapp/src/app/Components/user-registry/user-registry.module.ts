@@ -10,6 +10,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 
+
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule, UserRegistryRoutingModule,
     MatSnackBarModule,

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HeaderMenus } from 'src/app/Models/header-menu.dto';
 import { HeaderMenusService } from 'src/app/Services/header-menus.service';
+import { LoginService } from '../../Services/login.service';
+import { Observable } from 'rxjs';
 //import { LocalStorageService } from 'src/app/Services/local-storage.service';
 
 @Component({
@@ -10,26 +12,20 @@ import { HeaderMenusService } from 'src/app/Services/header-menus.service';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  showAuthSection: boolean;
-  showNoAuthSection: boolean;
+  isLoggedIn$: Observable<boolean> | undefined;  
 
   constructor(
     private router: Router,
-    private headerMenusService: HeaderMenusService
+    private headerMenusService: HeaderMenusService,
+    private loginService: LoginService
   ) {
-    this.showAuthSection = false;
-    this.showNoAuthSection = true;
+    
   }
 
   ngOnInit(): void {
-    this.headerMenusService.headerManagement.subscribe(
-      (headerInfo: HeaderMenus) => {
-        if (headerInfo) {
-          this.showAuthSection = headerInfo.showAuthSection;
-          this.showNoAuthSection = headerInfo.showNoAuthSection;
-        }
-      }
-    );
+
+    this.isLoggedIn$ = this.loginService.isLoggedIn;
+    this.isLoggedIn$.subscribe(c => console.log("LoggedIn: " + c));
   }
 
   home(): void {
@@ -53,14 +49,7 @@ export class HeaderComponent implements OnInit {
   }
 
   logout(): void {
-  
-    const headerInfo: HeaderMenus = {
-      showAuthSection: false,
-      showNoAuthSection: true,
-    };
-
-    this.headerMenusService.headerManagement.next(headerInfo);
-
+    this.loginService.logout();                      
     this.router.navigateByUrl('home');
   }
 }

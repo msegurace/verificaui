@@ -45,7 +45,7 @@ namespace Token.Service.Queries
                 .Where(t => t.idaplicacion == idApp &&
                     t.idusuario == idUsr && t.creado > DateTime.Now.AddMinutes(-5))
                 .OrderByDescending(o => o.id)
-                .FirstOrDefaultAsync())
+                .FirstOrDefaultAsync())?
                   .MapTo<Token2FADto>();
             return token;
         }

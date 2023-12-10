@@ -24,8 +24,8 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    const access_token = "";
-    if (access_token) {
+    //const access_token = "";
+    if (sessionStorage.getItem('username')) {
       // logged in so return true
       return true;
     }

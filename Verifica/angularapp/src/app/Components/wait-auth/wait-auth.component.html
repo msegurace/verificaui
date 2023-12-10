@@ -1,6 +1,44 @@
-<div id="timer">
+<div id="timer" style="margin: 0 auto; text-align: center;">
 <!--  <div>{{ time.days }} <span>Días</span></div>
   <div>{{ time.hours }} <span>Horas</span></div> -->
   <div>{{ time.minutes }} <span>Minutos</span></div>
   <div>{{ time.seconds }} <span>Segundos</span></div>
+</div>
+<div class="container_2fa">
+  <mat-card class="mat-elevation-z4" fxLayout="column" fxLayoutAlign="center">
+    <mat-card-header style="margin:0 auto;">
+      <mat-card-title>Resultado de la evaluación del riesgo...</mat-card-title>
+      <mat-card-subtitle>Cualquier puntuación igual o mayor que 20 solicitará un 2FA.</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <table>
+        <tr>
+          <th>Hito</th>
+          <th>Puntos</th>
+        </tr>
+        <tr>
+          <td>Puntos por ser administrador:</td><td>{{ result2fa!.admin! }}</td>
+        </tr>
+        <tr>
+          <td>Puntos por el origen:</td>
+          <td> {{ result2fa!.origin! }}</td>
+        </tr>
+        <tr>
+          <td>Puntos por la clasificación ENS: </td>
+          <td>{{ result2fa!.classification! }}</td>
+        </tr>
+        <tr>
+          <td>Puntos por el horario: </td>
+          <td>{{ result2fa!.time! }}</td>
+        </tr>
+        <tr>
+          <td>Total: </td>
+          <td>{{ result2fa!.admin! + result2fa!.origin! + result2fa!.classification! + result2fa!.time! }}</td>
+        </tr>
+      </table>
+    </mat-card-content>
+    
+  </mat-card>
+
+  
 </div>

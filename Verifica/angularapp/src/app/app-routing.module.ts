@@ -14,6 +14,11 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () =>
       import('./Components/login/login.module').then((m) => m.LoginModule),
+  },
+  {
+    path: 'login/:id',
+    loadChildren: () =>
+      import('./Components/login/login.module').then((m) => m.LoginModule),
   },  
   {
     path: 'forgotpwd',
@@ -33,13 +38,14 @@ const routes: Routes = [
       import('./Components/app-list/app-list.module').then(
         (m) => m.AppListModule
       ),
-    //canActivate: [AuthGuard]
+      canActivate: [AuthGuard]
   },
   {
     path: 'registerapp',
     loadChildren: () =>
       import('./Components/app-registry/app-registry.module').then(
-        (m) => m.AppRegistryModule)
+        (m) => m.AppRegistryModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'userlist',
@@ -60,7 +66,15 @@ const routes: Routes = [
       import('./Components/wait-auth/waith-auth.module').then(
         (m) => m.WaitAuthModule
       ),
-   // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'resultpage',
+    loadChildren: () =>
+      import('./Components/result-page/result-page.module').then(
+        (m) => m.ResultPageModule
+      ),
+     canActivate: [AuthGuard],
   },
   {
     path: 'modifyuser/:id',

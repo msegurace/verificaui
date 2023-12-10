@@ -17,6 +17,8 @@ import { HeaderMenus } from '../../Models/header-menu.dto';
 import { AplicacionDto } from '../../Models/aplicacion.dto';
 import { EvaluateRiskInformation } from '../../Models/evaluaterisk-information.dto';
 import { TokenService } from '../../Services/token.service';
+import { EvaluateRiskResult } from '../../Models/evaluaterisk-result.dto';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'login',
@@ -31,9 +33,9 @@ export class LoginComponent implements OnInit {
   loginForm?: FormGroup;
   responseOK: boolean = false;
   errorResponse: any;
-  idApp?: number = 1;
+  idApp: string;
   app?: AplicacionDto;
-  result2FA?: boolean;
+  result2FA?: EvaluateRiskResult;
   evaluateriskinfo?: EvaluateRiskInformation;
   
 
@@ -45,9 +47,13 @@ export class LoginComponent implements OnInit {
     private headerMenusService: HeaderMenusService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-  ) {
+    private snackbar: MatSnackBar) {
     this.loginInformation = new LoginInformation('', '');
 
+    this.idApp = this.activatedRoute.snapshot.paramMap.get('id')!;
+    if (this.idApp === null || this.idApp === undefined || this.idApp == "") {
+      this.idApp = "1";
+    }
     this.initForm();
   }
 
@@ -81,25 +87,29 @@ export class LoginComponent implements OnInit {
       await this.handle2FA();
     } catch (error: any) {
       this.responseOK = false;
-      console.log('login error: ' + error.error);
-      this.handleLoginError(error);
+      //this.handleLoginError(error);
+      this.snackbar.open(`Error en login ${error.error}`, 'Close', {
+        duration: 2000, horizontalPosition: 'right', verticalPosition: 'top'
+      })
     }
   }
 
   handle2FA = async () => {
     try {
-      this.evaluateriskinfo = new EvaluateRiskInformation(
-        this.loginUser!.id!,
-        this.idApp!
-      );
-      await this.tokenService.evaluateRisk(this.evaluateriskinfo)
-        .then(resp => {
-          this.result2FA = resp;
-          this.handleLoginToast();
-        })
-        .catch(error => throwError(() => {
-          console.log(error);
-        }));
+     
+        this.evaluateriskinfo = new EvaluateRiskInformation(
+          this.loginUser!.id!,
+          +this.idApp
+        ); 
+        await this.tokenService.evaluateRisk(this.evaluateriskinfo)
+          .then(resp => {
+            this.result2FA = resp;
+            this.handleLoginToast();
+          })
+          .catch(error => throwError(() => {
+            console.log(error);
+          }));
+     
     } catch (error: any) {
       throwError(() => error);
     }
@@ -113,6 +123,7 @@ export class LoginComponent implements OnInit {
         .then(user => {
           this.loginUser = user;
           sessionStorage.setItem('username', this.loginUser!.username);
+          this.authService.setLoggedIn(true);
         })
         .catch(error => throwError(() => {
           console.log(error);
@@ -123,53 +134,34 @@ export class LoginComponent implements OnInit {
   };
 
   handleLoginToast = async () => {
-    await this.sharedService.managementToast(
-      'loginFeedback',
-      this.responseOK,
-      this.errorResponse
-    );
-
-    if (this.responseOK) {
-      this.updateOptionsMenu();
-    }
-    this.result2FA = true;
-    if (this.result2FA!) {
-      await this.tokenService.createToken(this.evaluateriskinfo!)
-        .then(resp => {
-          console.log('token: ' + resp)
-          this.router.navigate(['/waitauth'], {
-            state: { token: resp}
-          });
-       })
-        .catch(error => throwError(() => {
-          console.log(error);
-        }));
-      
+ 
+    if (!this.result2FA?.error!) {
+      if (this.result2FA?.admin! + this.result2FA?.origin! + this.result2FA?.classification! + this.result2FA?.time! >= 20) {
+        await this.tokenService.createToken(this.evaluateriskinfo!)
+          .then(resp => {
+            this.snackbar.open('La evaluación del riesgo inica que es necesario un 2FAx. Redireccionando.', 'Close', {
+              duration: 5000, horizontalPosition: 'right', verticalPosition: 'top'
+            })
+            this.router.navigate(['/waitauth'], {
+              state: { token: resp, result2fa: this.result2FA! }
+            });
+          })
+          .catch(error => throwError(() => {
+            console.log(error);
+          }));
+      } else {
+        this.snackbar.open("Inicio de sesión correcto, NO hace falta 2FA... Redireccionando", 'Close', {
+          duration: 5000, horizontalPosition: 'right', verticalPosition: 'top'
+        })
+        this.router.navigateByUrl('/resultpage');
+      }      
     } else {
+      this.snackbar.open(`Error Evaluando 2FA, se retorna al inicio.`, 'Close', {
+        duration: 5000, horizontalPosition: 'right', verticalPosition: 'top'
+      })
       this.router.navigateByUrl('/home');
     }
   };
   
-  handleLoginError = (error: any) => {
-    this.responseOK = false;
-    this.errorResponse = error.error;
-    this.handleError(this.errorResponse);
-    const headerInfo: HeaderMenus = {
-      showAuthSection: false,
-      showNoAuthSection: true,
-    };
-    this.headerMenusService.headerManagement.next(headerInfo);
-  };
-
-  updateOptionsMenu = () => {
-    const headerInfo: HeaderMenus = {
-      showAuthSection: true,
-      showNoAuthSection: false,
-    };
-    this.headerMenusService.headerManagement.next(headerInfo);
-  };
-
-  private handleError = (errorResponse: any): void => {
-    this.sharedService.errorLog(errorResponse);
-  };
+ 
 }

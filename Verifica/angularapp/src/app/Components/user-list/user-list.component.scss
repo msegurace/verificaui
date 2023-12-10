@@ -1,0 +1,31 @@
+table,
+.form-fields {
+  width: 100%;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+.responsive-table {
+  width: 100%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+.search-icon {
+  font-size: 30px !important;
+}
+
+.pt10 {
+  padding-top: 10px;
+}
+
+.prl15 {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.mb5 {
+  margin-bottom: 5px;
+}

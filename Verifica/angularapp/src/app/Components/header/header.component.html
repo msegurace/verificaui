@@ -3,17 +3,25 @@
     <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm>
       <mat-icon>menu</mat-icon>
     </button>
-    <div fxLayout="row" fxLayoutAlign="center center" class="fullscreen" >
-      <div class="header" fxFlex="20" fxHide.lt-md  fxLayoutAlign="start">
+    <div fxLayout="row" fxLayoutAlign="center center" class="fullscreen" *ngIf="{isLoggedIn: (isLoggedIn$ | async) } as data">
+      <div class="header" fxFlex="20" fxHide.lt-md fxLayoutAlign="start">
         <img src="../../../assets/img/logo.png" />
       </div>
-    
-      <!-- The following menu items will be hidden on both SM and XS screen sizes -->
-        <div *ngIf="showNoAuthSection" fxFlex="80" fxShow="true" fxLayoutAlign="end" fxHide.lt-md>
-          <a href="/home" mat-button>Inicio</a>
-          <a href="/login" mat-button>Inicio de sesión</a>
+      
+      
+        <!-- The following menu items will be hidden on both SM and XS screen sizes -->
+        <div *ngIf="!data.isLoggedIn" fxFlex="80" fxShow="true" fxLayoutAlign="end" fxHide.lt-md>
+          <button mat-button routerLink="/home">Inicio</button>
+          <button mat-button routerLink="/login">Inicio de sesión</button>
         </div>
-      <span class="menu-spacer"></span>
+        <span class="menu-spacer"></span>
+        <div *ngIf="data.isLoggedIn" fxFlex="80" fxShow="true" fxLayoutAlign="end" fxHide.lt-md>
+          <button mat-button routerLink="/home">Inicio</button>
+          <button mat-button routerLink="/applist">Gestión de aplicaciones</button>
+          <button mat-button routerLink="/userlist">Gestión de usuarios</button>
+          <button mat-button (click)="logout()">Logout</button>
+        </div>
+      
     </div>
     
     
@@ -24,15 +32,15 @@
   <mat-sidenav #sidenav>
     <mat-nav-list>
       <a (click)="sidenav.toggle()" href="" mat-list-item>Close</a>
-      <div *ngIf="showNoAuthSection">
-        <a href="/home" mat-list-item>Inicio</a>
-        <a href="/login" mat-button>Inicio de sesión</a>
+      <div *ngIf="!isLoggedIn$">
+        <button mat-button routerLink="/home">Inicio</button>
+        <button mat-button routerLink="/login">Inicio de sesión</button>
       </div>
-      <div *ngIf="showAuthSection">
-        <a href="/home" mat-list-item>Inicio</a>
-        <a href="/applist" mat-list-item>Gestión de aplicaciones</a>
-        <a href="/userlist" mat-list-item>Gestión de usuarios</a>
-        <a href="/logout" mat-list-item>Salir</a>
+      <div *ngIf="isLoggedIn$">
+        <button mat-button routerLink="/home">Inicio</button>
+        <button mat-button routerLink="/applist">Gestión de aplicaciones</button>
+        <button mat-button routerLink="/userlist">Gestión de usuarios</button>
+        <button mat-button (click)="logout()">Logout</button>
       </div>      
     </mat-nav-list>
   </mat-sidenav>

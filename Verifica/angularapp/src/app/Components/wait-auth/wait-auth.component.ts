@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { interval, map } from 'rxjs';
 import { Token2FADto } from '../../Models/token2fa.dto';
+import { TokenService } from '../../Services/token.service';
+import { EvaluateRiskResult } from '../../Models/evaluaterisk-result.dto';
 
 @Component({
   selector: 'app-wait-auth',
@@ -15,14 +17,19 @@ export class WaitAuthComponent implements OnInit {
     minutes: number;
     seconds: number;
   };
-  @Input() finishDateString: string = '';
+
+  tStatus: string = "A";
+  
   finishDate: Date = new Date();
   token?: Token2FADto;
+  result2fa?: EvaluateRiskResult;
 
   constructor(private router: Router,
-    private activatedRoute: ActivatedRoute) {
+    private activatedRoute: ActivatedRoute,
+    private tokenService: TokenService) {
     var state = this.router.getCurrentNavigation()!.extras.state;
     this.token = state!['token'];
+    this.result2fa = state!['result2fa'];
   }
 
   ngOnInit(): void {
@@ -50,6 +57,12 @@ export class WaitAuthComponent implements OnInit {
         counterTimer$.unsubscribe();
       }
     });
+
+    let tokenTimer$ = this.startToken().subscribe((_) => {
+      if (this.tStatus != "A" && this.tStatus != 'V') {
+          tokenTimer$.unsubscribe();
+        }
+    })
   }
 
   updateTime() {
@@ -57,7 +70,7 @@ export class WaitAuthComponent implements OnInit {
     const now = new Date();
     
     const diff = this.finishDate.getTime() - now.getTime();
-    console.log(diff)
+   // console.log(diff)
 
     // Cálculos para sacar lo que resta hasta ese tiempo objetivo / final
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -77,6 +90,26 @@ export class WaitAuthComponent implements OnInit {
     return interval(1000).pipe(
       map((x: number) => {
         this.updateTime();
+        return x;
+      })
+    );
+  }
+
+  //Buscamos el token cada 5 segundos para ver si ha cambiado
+  startToken() {
+    return interval(5000).pipe(
+      map(async (x: number) => {
+        await this.tokenService.getTokenStatus(this.token!.id)
+          .then(r => {
+            this.tStatus = r;
+            if (r == "A") {
+              this.router.navigate(['/resultpage'], {
+                state: { token: this.token }
+              });
+            } else if (r == "R" || r == "E") {
+              this.router.navigate(['/home']);
+            }
+          })
         return x;
       })
     );

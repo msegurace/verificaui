@@ -1,0 +1,19 @@
+.header,
+.dialog-message {
+  text-transform: lowercase;
+}
+
+.header::first-letter,
+.dialog-message::first-letter {
+  text-transform: uppercase;
+}
+
+.userDialog {
+  width: 35vw;
+}
+
+.userDialog .mat-mdc-form-field {
+  width: 100%;
+}
+
+

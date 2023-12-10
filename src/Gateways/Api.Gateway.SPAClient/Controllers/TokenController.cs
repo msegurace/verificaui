@@ -5,6 +5,7 @@ using Api.Gateways.Proxies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Gateway.SPAClient.Controllers
@@ -57,6 +58,26 @@ namespace Api.Gateway.SPAClient.Controllers
 
         }
 
+        [HttpGet("getTokenStatus/{id}")]
+        public async Task<string> TokenStatusAync(int id)
+        {
+            var token = await _tokenProxy!.GetAsync(id);
+            if (token.creado < DateTime.Now.AddMinutes(-5))
+            {
+                return "E"; //EXPIRADO
+            }
+            if ((bool)token.rechazado!)
+            {
+                return "R"; //RECHAZADO
+            }
+            if ((bool)token.aceptado!)
+            {
+                return "A"; //ACEPTADO
+            }
+            return "V"; //TODAVÍA EN VIGOR
+            
+        }
+
         [HttpPost("reject")]
         public async Task<bool> RejectAsync(TokenRejectCommand command)
         {
@@ -76,54 +97,62 @@ namespace Api.Gateway.SPAClient.Controllers
         /// <param name="info">Usuario y aplicación de origen</param>
         /// <returns></returns>
         [HttpPost("evaluaterisk")]
-        public async Task<bool> EvaluateRiskAsync(EvaluateRiskInformation info)
+        public async Task<EvaluateRiskResult> EvaluateRiskAsync(EvaluateRiskInformation info)
         {
-            int peso = 0;
 
-            if (info != null)
+            var result = new EvaluateRiskResult();
+
+            try
             {
-                //Administrador
-                var user = await _userProxy.GetAsync(info.idUsuario);
-                if (user != null)
+                if (info != null)
                 {
-                    if (user.admin)
+                    //Administrador
+                    var user = await _userProxy.GetAsync(info.idUsuario);
+                    if (user != null)
                     {
-                        return true;
+                        if (user.admin)
+                        {
+                            result.admin = 20;
+                        }
                     }
-                }
-                else
-                {
-                    peso = 50;
-                }
-                //Horario
-                if (DateTime.Now.Hour < 7 || DateTime.Now.Hour > 16)
-                {
-                    peso += 10;
-                }
-                var app = await _appProxy.GetAsync(info.idAplicacion);
-                if (app != null)
-                {
-                    //ORIGEN
-                    if (app.origen.Equals("EXTERNA"))
+                    else
                     {
-                        peso += 10;
+                        result.error = true;
                     }
-                    //ENS
-                    if (app.clasificacion_ens.Equals("ALTA"))
+                    //Horario
+                    if (DateTime.Now.Hour < 7 || DateTime.Now.Hour > 16)
                     {
-                        peso += 20;
+                        result.time = 10;
                     }
-                    else if (app.clasificacion_ens.Equals("MEDIA"))
+                    var app = await _appProxy.GetAsync(info.idAplicacion);
+                    if (app != null)
                     {
-                        peso += 10;
+                        //ORIGEN
+                        if (app.origen.Equals("EXTERNA"))
+                        {
+                            result.origin = 10;
+                        }
+                        //ENS
+                        if (app.clasificacion_ens.Equals("ALTA"))
+                        {
+                            result.classification = 20;
+                        }
+                        else if (app.clasificacion_ens.Equals("MEDIA"))
+                        {
+                            result.classification = 10;
+                        }
                     }
-                }
-                else
-                {
-                    peso = 50;
+                    else
+                    {
+                        result.error = true;
+                    }
                 }
             }
-            return peso > 20;
+            catch (Exception)
+            {
+                result.error = true;
+            }
+            return result;
         }
     }
 }

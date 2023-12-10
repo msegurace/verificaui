@@ -23,9 +23,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { AlertBoxComponent } from './Components/alert-box/alert-box.component';
 import { DialogBoxComponent } from './Components/dialog-box/dialog-box.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UserDialogComponent } from './Components/user-dialog/user-dialog.component';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, FooterComponent, AlertBoxComponent, DialogBoxComponent],
+  declarations: [AppComponent, HeaderComponent, FooterComponent, AlertBoxComponent, DialogBoxComponent, UserDialogComponent],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, BrowserAnimationsModule,
     MatToolbarModule,
     MatSidenavModule,

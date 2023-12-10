@@ -20,4 +20,8 @@ export class TokenService {
   async createToken(info: EvaluateRiskInformation) {
     return firstValueFrom(this.http.post<any>(constants.BASE_URL + constants.tokensUrl + '/add', info));
   }
+
+  async getTokenStatus(id: number) {
+    return firstValueFrom(this.http.get<any>(constants.BASE_URL + constants.tokensUrl + `/gettokenstatus/${id}`));
+  }
 }
