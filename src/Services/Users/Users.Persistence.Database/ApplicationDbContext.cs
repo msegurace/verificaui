@@ -11,5 +11,7 @@ namespace Users.Persistence.Database
         }
 
         public DbSet<Usuario> Usuarios { get; set; }
+
+        public DbSet<VerificaUserSMS> UserSMS { get; set; }
     }
 }

@@ -3,7 +3,8 @@
     <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm>
       <mat-icon>menu</mat-icon>
     </button>
-    <div fxLayout="row" fxLayoutAlign="center center" class="fullscreen" *ngIf="{isLoggedIn: (isLoggedIn$ | async) } as data">
+    <div fxLayout="row" fxLayoutAlign="center center" class="fullscreen"
+         *ngIf="{isLoggedIn: (isLoggedIn$ | async) } as data">
       <div class="header" fxFlex="20" fxHide.lt-md fxLayoutAlign="start">
         <img src="../../../assets/img/logo.png" />
       </div>

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Service.Common.Collection;
 using System.Security.Claims;
 using User.Service.EventHandlers.Commands;
+using User.Service.Queries.DTOs;
 using Users.Service.Queries;
 using Users.Service.Queries.DTOs;
 
@@ -79,7 +80,41 @@ namespace Users.Api.Controllers
 
         }
 
-        
+        [HttpPost("register")]
+        [ProducesResponseType(typeof(VerificaGenericResponse), StatusCodes.Status200OK)]
+        public async Task<VerificaGenericResponse> RegisterAsync(VerificaAppUserDto user)
+        {
+            try
+            {
+                return await _queryService.RegisterAsync(user);
+            }
+            catch (Exception ex)
+            {
+                return new VerificaGenericResponse()
+                {
+                    code = "NOK",
+                    content = ex.Message
+                };
+            }
+        }
+
+        [HttpPost("endregister")]
+        [ProducesResponseType(typeof(VerificaGenericResponse), StatusCodes.Status200OK)]
+        public async Task<VerificaGenericResponse> EndRegisterAsync(VerificaAppUserDto user)
+        {
+            try
+            {
+                return await _queryService.EndRegistrationAsync(user);
+            }
+            catch (Exception ex)
+            {
+                return new VerificaGenericResponse()
+                {
+                    code = "NOK",
+                    content = ex.Message
+                };
+            }
+        }
     }
 }
 

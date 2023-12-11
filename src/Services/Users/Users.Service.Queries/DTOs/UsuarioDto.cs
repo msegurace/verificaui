@@ -18,6 +18,7 @@ namespace Users.Service.Queries.DTOs
         public string email { get; set; }
         public string telefono { get; set; }
         public bool admin { get; set; }
-
+        public bool registering { get; set; }
+        public string otp { get; set; }
     }
 }
