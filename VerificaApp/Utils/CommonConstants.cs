@@ -2,15 +2,15 @@
 {
     public static class CommonConstants
     {
-        public static readonly string BASE_URL = "https://localhost:10500";
+        public static readonly string BASE_URL = "https://evgc001f01-0005.gobcan.net:10500";
 
-        public static readonly string GET_TOKENS_URL = "/v2/getTokens";
-        public static readonly string VALIDATE_USER_URL = "/v1/validateUser";
-        public static readonly string REGISTER_USER_URL = "/v1/register";
-        public static readonly string END_REGISTER_USER_URL = "/v1/endRegister";
-        public static readonly string ACCEPT_TOKEN_URL = "/v2/acceptToken";
-        public static readonly string REJECT_TOKEN_URL = "/v2/rejectToken";
-        public static readonly string VALIDATE_OTP_URL = "/v2/validateOTP";
+        public static readonly string AUTH_USER = "auth";
+        public static readonly string VALIDATE_USER_URL = "users/validate";
+        public static readonly string REGISTER_USER_URL = "users/register";
+        public static readonly string END_REGISTER_USER_URL = "users/endregister";
+        public static readonly string GET_TOKENS_URL = "tokens/getallforapp";
+        public static readonly string ACCEPT_TOKEN_URL = "tokens/accept";
+        public static readonly string REJECT_TOKEN_URL = "tokens/reject";
 
         public static string TERMINOS_HOME_PHONE_ACEPTADO = "TerminosHomePhoneAceptado";
         public static string ACCESS_FROM_OTHER_INSTALLATION = "Se ha identificado un intento de acceso a GobCan Verifica desde otro terminal o instalación.Si ha sido usted, siga los pasos que le han indicado para la nueva instalación.. Si no ha sido usted, proceda a actualizar su contraseña lo antes posible desde MiClave.";
@@ -61,8 +61,11 @@
         }
 
         //Expiración de sesión en 5 minutos
-        public static int SessionTimeout { get { return 5; } }
+        public static int SessionExpiration { get { return 10; } }
 
-        
+        //Refresco de búsqueda de autorizaciones pendientes, 1 minuto.
+        public static int RefreshTimer { get { return 1; } }
+
+
     }
 }

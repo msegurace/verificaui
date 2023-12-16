@@ -12,6 +12,7 @@ namespace Token.Service.Queries
     public interface ITokenQueryService
     {
         Task<DataCollection<Token2FADto>> GetAllAsync(int page, int take, IEnumerable<int> users = null);
+        Task<DataCollection<Token2FADto>> GetAllForUserAsync(int idUser, int page, int take);
         Task<Token2FADto> GetAsync(int id);
         Task<Token2FADto> GetNewAsync(int idApp, int idUsr);
     }
@@ -30,6 +31,16 @@ namespace Token.Service.Queries
             var collection = await _context.Tokens.Where(x => users == null || users.Contains(x.id))
                 .OrderBy(x => x.id)
                 .GetPagedAsync(page, take);
+
+            return collection.MapTo<DataCollection<Token2FADto>>();
+        }
+
+        public async Task<DataCollection<Token2FADto>> GetAllForUserAsync(int idUser, int page, int take)
+        {
+            var collection = await _context.Tokens
+               .Where(x => x.idusuario == idUser && !x.aceptado!.Value && !x.rechazado!.Value && x.creado!.Value.AddMinutes(5) > DateTime.Now )
+               .OrderByDescending(x => x.creado)
+               .GetPagedAsync(page, take);
 
             return collection.MapTo<DataCollection<Token2FADto>>();
         }

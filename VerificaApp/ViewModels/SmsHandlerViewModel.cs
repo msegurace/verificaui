@@ -36,9 +36,9 @@ namespace VerificaApp.ViewModels
         /// </summary>
         private async Task SMSButton()
         {
-            MainThread.BeginInvokeOnMainThread(async () =>
+            MainThreadHelper.BeginInvokeOnMainThread(async () =>
             {
-                //await Shell.Current.GoToAsync($"//{nameof(ItemsPage)}");
+                await Shell.Current.GoToAsync($"//{nameof(ItemsPage)}");
             });
         }
 
@@ -52,13 +52,16 @@ namespace VerificaApp.ViewModels
             {
                 IsSMSButtonEnabled = false;
                 IsBusy = true;
-                //Envía petición al servidor para validar los datos
-                var user = new VerificaAppUser()
+
+                //Envío sólo los datos necesarios
+                VerificaAppUser u = new VerificaAppUser()
                 {
-                    uid = await SecureStorage.GetAsync("username"),
-                    otp = this.SmsActivationCode
+                    uid = CurrentUser.uid,
+                    otp = SmsActivationCode
                 };
-                var response = await _VerificaAppService.GenericRequest(user, CommonConstants.END_REGISTER_USER_URL);
+
+                //Envía petición al servidor para validar los datos
+                var response = await _VerificaAppService.EndRegisterUser(u);
                 System.Diagnostics.Debug.WriteLine($"OnValidateOTP {response}");
                 if (!response.code.Equals("OK"))
                 {
@@ -66,9 +69,13 @@ namespace VerificaApp.ViewModels
                 }
                 else
                 {
-                    user = JsonSerializer.Deserialize(response.content.ToString(), VerificaAppUserContext.Default.VerificaAppUser);
+                    var user = JsonSerializer.Deserialize(response.content.ToString(), VerificaAppUserContext.Default.VerificaAppUser);
                     CurrentUser.guid = user.guid;
                     await SaveStorageData();
+                    MainThreadHelper.BeginInvokeOnMainThread(async () =>
+                    {
+                        await Shell.Current.GoToAsync($"//{nameof(ItemsPage)}");
+                    });
                 }
             }
             catch (Exception ex)

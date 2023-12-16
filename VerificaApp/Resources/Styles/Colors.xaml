@@ -4,7 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <Color x:Key="Primary">#512BD4</Color>
+    <Color x:Key="Primary">#0c2c84</Color>
     <Color x:Key="Secondary">#DFD8F7</Color>
     <Color x:Key="Tertiary">#2B0B98</Color>
     <Color x:Key="White">White</Color>
@@ -40,5 +40,18 @@
     <Color x:Key="Blue100Accent">#3E8EED</Color>
     <Color x:Key="Blue200Accent">#72ACF1</Color>
     <Color x:Key="Blue300Accent">#A7CBF6</Color>
+
+    <Color x:Key="AutorizoColor">Green</Color>
+    <!-- Colores de identidad gráfica del Gobierno de Canarias -->
+    <Color x:Key="Amarillo_logo">#ffb300</Color>
+    <Color x:Key="Azul_oscuro_logo">#0c2c84</Color>
+    <Color x:Key="Azul_claro_logo">#0767ac</Color>
+    <Color x:Key="Especial">#a3ad99</Color>
+    <Color x:Key="Amarillo_bandera">#ffcc00</Color>
+    <Color x:Key="Gris_escudo">#918f90</Color>
+    <Color x:Key="Rojo_escudo">#fe000c</Color>
+    <Color x:Key="Naranja_escudo">#d88f1f</Color>
+    <Color x:Key="Frame_Backcolor">#577894</Color>
+    <Color x:Key="Button_Success_Backcolor">#55EA9C</Color>
 
 </ResourceDictionary>

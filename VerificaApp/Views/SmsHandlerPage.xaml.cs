@@ -1,6 +1,7 @@
 ﻿
 namespace VerificaApp.Views
 {
+    [QueryProperty(nameof(user), "user")]
     public partial class SmsHandlerPage : BasePage
     {
         private SmsHandlerViewModel _viewModel;
@@ -8,12 +9,18 @@ namespace VerificaApp.Views
         DateTimeOffset currentTime = new DateTimeOffset(DateTime.Now);
         IDispatcherTimer timer = null;
         string sms = String.Empty;
+        public VerificaAppUser user { 
+            set
+            {
+                _viewModel.CurrentUser = value;
+            }
+        }
 
         public SmsHandlerPage(SmsHandlerViewModel viewModel, ISMSHandler smsHandler)
         {
             InitializeComponent();
 
-            _viewModel = viewModel;            
+            _viewModel = viewModel;
             _smsHandler = smsHandler;
 
         }
@@ -57,6 +64,11 @@ namespace VerificaApp.Views
         private void Button_Clicked(object sender, EventArgs e)
         {
             _viewModel.ValidateOtpCommand.Execute(null);
+        }
+
+        private void pinBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            _viewModel.SmsActivationCode = pinBox.Text;
         }
 
         //private void PinBox_Completed(object sender, TemplateUI.Controls.PinCompletedEventArgs e)

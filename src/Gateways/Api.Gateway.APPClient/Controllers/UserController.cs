@@ -1,13 +1,8 @@
-﻿using Api.Gateways.Models;
-using Api.Gateways.Models.Commands;
-using Api.Gateways.Models.DTOs;
+﻿using Api.Gateways.Models.DTOs;
 using Api.Gateways.Proxies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Net.Http;
-using System.Text;
 
 namespace Api.Gateway.APPClient.Controllers
 {
@@ -39,6 +34,12 @@ namespace Api.Gateway.APPClient.Controllers
         public async Task<VerificaGenericResponse> EndRegisterAsync(VerificaAppUserDto user)
         {
             return await _userProxy!.EndRegisterAsync(user);
+        }
+
+        [HttpPost("validate")]
+        public async Task<VerificaGenericResponse> ValidateAsync(VerificaAppUserDto user)
+        {
+            return await _userProxy!.ValidateAsync(user);
         }
     }
 }

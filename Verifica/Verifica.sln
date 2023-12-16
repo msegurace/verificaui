@@ -127,7 +127,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.Gateways.Models", "..\s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VerificaApp", "..\VerificaApp\VerificaApp.csproj", "{BB703F3B-9467-484C-9CA4-23834906DCF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.Gateway.APPClient", "..\src\Gateways\Api.Gateway.APPClient\Api.Gateway.APPClient.csproj", "{EF5F26EA-DACC-4156-AF7D-1C60D8A6731F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.Gateway.APPClient", "..\src\Gateways\Api.Gateway.APPClient\Api.Gateway.APPClient.csproj", "{EF5F26EA-DACC-4156-AF7D-1C60D8A6731F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04.Memoria", "04.Memoria", "{7FB53826-6B51-4E9C-8067-3A0C5BE17EED}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\..\..\Documentos\personal\UOC\Documentacion\PEC2_mem_SeguraCedres_Moises.odt = ..\..\..\..\..\Documentos\personal\UOC\Documentacion\PEC2_mem_SeguraCedres_Moises.odt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -27,9 +27,15 @@
         <Frame Grid.Row="1" Margin="20,10" BorderColor="{StaticResource Primary}" HasShadow="True"  CornerRadius="50" >
 
             <StackLayout Spacing="10">
-                <customControls:PinBox x:Name="pinBox">
-                    
-                </customControls:PinBox>
+                <Frame Padding="8" BorderColor="Green" >
+                    <Entry x:Name="pinBox"
+                       HorizontalOptions="Center" 
+                       HorizontalTextAlignment="Center"
+                       Placeholder="Introduzca OTP."
+                       TextChanged="pinBox_TextChanged"
+                       />
+
+                </Frame>
                 <Label Margin="0,-20,0,20" Text="Si no se rellena automáticamente el campo anterior, introduzca el código recibido."
                        TextColor="{StaticResource Gray400}">
                     

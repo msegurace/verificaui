@@ -1,7 +1,4 @@
-﻿using Plugin.Fingerprint;
-using Plugin.Fingerprint.Abstractions;
-
-namespace VerificaApp.ViewModels
+﻿namespace VerificaApp.ViewModels
 {
     public partial class SignUpViewModel: BaseViewModel
     {
@@ -42,6 +39,9 @@ namespace VerificaApp.ViewModels
         public SignUpViewModel(IVerificaAppService VerificaAppService)
         {
             _VerificaAppService = VerificaAppService;
+            Phone = "999666333";
+            Login = "mseggon";
+            Password = "mseggon";
         }
 
         
@@ -59,7 +59,7 @@ namespace VerificaApp.ViewModels
         /// </summary>
         /// <param name="obj"></param>
         [RelayCommand]
-        private async void SignUp(object obj)
+        private async Task SignUp(object obj)
         {
             if (IsBusy)
                 return;
@@ -80,18 +80,9 @@ namespace VerificaApp.ViewModels
                 };
                 CurrentUser = user;
 
-#if DEBUG
-                user.registering = true;
-                var response = new VerificaAppGenericResponse
-                {
-                    code = "OK",
-                    content = user
-                };
-
-#else
                 //Envía petición al servidor para validar los datos
                 var response = await _VerificaAppService.RegisterUser(user);
-#endif                
+
                 //Respuesta
                 if (response == null || !response.code.Equals("OK"))
                 {
@@ -101,15 +92,16 @@ namespace VerificaApp.ViewModels
                 {
                     try
                     {
-#if !DEBUG
+
                         user = JsonSerializer.Deserialize(response.content.ToString(), VerificaAppUserContext.Default.VerificaAppUser);
-#endif
                         CurrentUser.registering = user.registering;
-                        if (user.registering)
+                        if ((bool)user.registering)
                         {
                             MainThreadHelper.BeginInvokeOnMainThread(async () =>
                             {
-                                await Shell.Current.GoToAsync($"///{nameof(SmsHandlerPage)}");
+                                IDictionary<string, object> map = new Dictionary<string, object>();
+                                map.Add("user", user);
+                                await Shell.Current.GoToAsync($"///{nameof(SmsHandlerPage)}",true,map);
                             });
                         }
                         else
@@ -117,7 +109,7 @@ namespace VerificaApp.ViewModels
                             //Si todo ha ido bien se guardan los datos en el almacenamiento local
                             MainThreadHelper.BeginInvokeOnMainThread(async () =>
                             {
-                                //await Shell.Current.GoToAsync($"///{nameof(ItemsPage)}");
+                                await Shell.Current.GoToAsync($"///{nameof(ItemsPage)}");
                             });
                         }
 

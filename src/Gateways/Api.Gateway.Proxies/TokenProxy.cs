@@ -24,6 +24,7 @@ namespace Api.Gateways.Proxies
         Task<bool> ModifyAsync(TokenModifyCommand command);
         Task<bool> AcceptAsync(TokenAcceptCommand command);
         Task<bool> RejectAsync(TokenRejectCommand command);
+        Task<DataCollection<Token2FADto>>  GetAllForUserAsync(int idUser, int page, int take);
     }
     public class TokenProxy: ITokenProxy
     {
@@ -92,7 +93,6 @@ namespace Api.Gateways.Proxies
                     PropertyNameCaseInsensitive = true
                 }
              )!;
-
         }
 
         [HttpPost("modify")]
@@ -143,6 +143,20 @@ namespace Api.Gateways.Proxies
             request.EnsureSuccessStatusCode();
             return true;
 
+        }
+
+        public async Task<DataCollection<Token2FADto>> GetAllForUserAsync(int idUser, int page, int take)
+        {
+            var request = await _httpClient.GetAsync($"v1/tokens/getallforuser/?iduser={idUser}&page={page}&take={take}");
+            request.EnsureSuccessStatusCode();
+
+            return JsonSerializer.Deserialize<DataCollection<Token2FADto>>(
+                await request.Content.ReadAsStringAsync(),
+                new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                }
+             )!;
         }
     }
 }

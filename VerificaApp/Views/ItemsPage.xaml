@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:vm="clr-namespace:VerificaApp.ViewModels"  
+             xmlns:model="clr-namespace:VerificaApp.Models"  
+             xmlns:pages="clr-namespace:VerificaApp.Views"
+             x:Class="VerificaApp.Views.ItemsPage"
+             Title="{Binding Title}"
+             x:Name="BrowseItemsPage">
+
+    <pages:BasePage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </pages:BasePage.Resources>
+
+            <!--
+      x:DataType enables compiled bindings for better performance and compile time validation of binding expressions.
+      https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/compiled-bindings
+    -->
+    <RefreshView x:DataType="vm:ItemsViewModel" Command="{Binding LoadItemsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+        <CollectionView x:Name="ItemsListView"
+                ItemsSource="{Binding Items}"
+                SelectionMode="None"
+                        EmptyView="{Binding EmptyViewLabel}" 
+                        Margin="10,10,10,10">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical"
+                           ItemSpacing="10" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame  BorderColor="{StaticResource Primary}" BackgroundColor="{StaticResource Primary}" CornerRadius="50" >
+                        <StackLayout VerticalOptions="FillAndExpand"
+                              x:DataType="model:ItemDto">
+                            
+                            <StackLayout Grid.Row="0" Orientation="Vertical">
+                                <Label Text="Aplicación de origen" Style="{StaticResource LabelCabeceraStyle}"></Label>
+                                <Label Text="{Binding aplicacion}"></Label>
+                            </StackLayout>
+                            <StackLayout Grid.Row="1" Orientation="Vertical">
+                                <Label Text="IP de origen" Style="{StaticResource LabelCabeceraStyle}"></Label>
+                                <Label Text="{Binding }"></Label>
+                            </StackLayout>
+                            <StackLayout Grid.Row="2" Orientation="Vertical">
+                                <Label Text="Solicitado el" Style="{StaticResource LabelCabeceraStyle}"></Label>
+                                <Label Text="{Binding creado,StringFormat='{0:dd/MM/yyyy HH:mm:ss}'}"></Label>
+                            </StackLayout>
+                            <StackLayout  Grid.Row="3" Orientation="Vertical">
+                                <Label Text="Esta solicitud expira en" Style="{StaticResource LabelCabeceraStyle}"></Label>
+                                <Label Text="{Binding TiempoExpira}"
+                                       TextColor="{Binding ExpiryColor}"
+                                       FontSize="25"></Label>
+                            </StackLayout>
+                            <Grid Grid.Row="4" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" >
+                                <Button Grid.Column="0" Text="Aceptar" 
+                                        IsVisible="{Binding IsExpired, Mode=TwoWay, Converter={StaticResource InvertedBoolConverter}}"
+                                        TextColor="{StaticResource TextColorPrimary}" 
+                                        BackgroundColor="{StaticResource AutorizoColor}" 
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ItemsViewModel}}, Path=AutorizoCommand}"		
+                                        CommandParameter="{Binding .}"></Button>
+                                <Button Grid.Column="1" 
+                                        Text="Rechazar" 
+                                        TextColor="{StaticResource TextColorPrimary}" 
+                                        BackgroundColor="{StaticResource Rojo_escudo}" 
+                                        IsVisible="{Binding IsExpired, Mode=TwoWay, Converter={StaticResource InvertedBoolConverter}}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ItemsViewModel}}, Path=RechazoCommand}"		
+                                        CommandParameter="{Binding .}"></Button>
+                            </Grid>
+                            <ActivityIndicator Grid.Row="4"
+                                       Color="{StaticResource Amarillo_logo}"
+                                       IsRunning="{Binding Source={RelativeSource AncestorType={x:Type vm:ItemsViewModel}}, Path=IsBusy}"></ActivityIndicator>
+                        </StackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </RefreshView>
+</pages:BasePage>

@@ -21,4 +21,19 @@
         ContentTemplate="{DataTemplate local:LoginPage}"
         Route="LoginPage" />
 
+    <ShellContent
+        Title="Items"
+        ContentTemplate="{DataTemplate local:ItemsPage}"
+        Route="ItemsPage" />
+
+    <ShellContent
+        Title="About"
+        ContentTemplate="{DataTemplate local:AboutPage}"
+        Route="AboutPage" />
+
+    <ShellContent
+        Title="Config"
+        ContentTemplate="{DataTemplate local:ConfigPage}"
+        Route="ConfigPage" />
+
 </Shell>

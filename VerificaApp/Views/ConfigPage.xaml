@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:VerificaApp.Views"
+             xmlns:vm="clr-namespace:VerificaApp.ViewModels"
+             x:Class="VerificaApp.Views.ConfigPage"
+             x:DataType="vm:ConfigViewModel"
+             Title="Configuración"
+              BackgroundColor="{StaticResource Primary}">
+
+    <VerticalStackLayout HorizontalOptions="FillAndExpand">
+        <Frame Grid.Row="1"  Margin="20,30" BorderColor="{StaticResource Primary}" HasShadow="True"  CornerRadius="50" >
+            <VerticalStackLayout>
+                <Label Grid.Row="0" Text="Datos almacenados" TextColor="{StaticResource Primary}"></Label>
+                <HorizontalStackLayout Grid.Row="1" Spacing="10">
+                    <Label Text="Nº Móvil:" TextColor="{StaticResource Primary}" HorizontalTextAlignment="End"></Label>
+                    <Label Text="{Binding Phone}" TextColor="{StaticResource Primary}"></Label>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout Grid.Row="2" Spacing="10">
+                    <Label Grid.Column="0" Text="Usuario:" TextColor="{StaticResource Primary}" HorizontalTextAlignment="End"></Label>
+                    <Label Grid.Column="1" Text="{Binding Login}" TextColor="{StaticResource Primary}"></Label>
+                </HorizontalStackLayout>
+                <Button Grid.Row="3"
+                            WidthRequest="200"
+                            HorizontalOptions="Center"
+                            Text="Actualizar datos" 
+                            Command="{Binding GotoSignUpCommand}"></Button>
+                <BoxView Grid.Row="5" 
+                             HorizontalOptions="FillAndExpand" HeightRequest="1" 
+                             Margin="10,0,10,0"
+                             Color="{StaticResource Gris_escudo}" />
+                <HorizontalStackLayout Grid.Row="6" Spacing="10">
+                    <Label Text="Permitir acceso biométrico" TextColor="{StaticResource Primary}"></Label>
+                    <Switch  x:Name="BiometricAccess" IsToggled="{Binding IsBiometricsEnabled}" 
+                                 HorizontalOptions="Start" Toggled="BiometricAccess_Toggled"/>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </Frame>
+    </VerticalStackLayout>
+</pages:BasePage>

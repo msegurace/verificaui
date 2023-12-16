@@ -45,6 +45,12 @@ namespace Users.Api.Controllers
             return await _queryService.GetAllAsync(page, take, tokens);
         }
 
+        [HttpGet("getallforuser")]
+        public async Task<DataCollection<Token2FADto>> GetAllForUser(int idUser, int page = 1, int take = 10)
+        {
+            return await _queryService.GetAllForUserAsync(idUser, page, take);
+        }
+
         [HttpGet("get/{id}")]
         public async Task<Token2FADto> Get(int id)
         {

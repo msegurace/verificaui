@@ -17,15 +17,8 @@ namespace VerificaApp.Views
 
             _viewModel.TestAlreadySignedUp(Name);
 
-            Login.Completed += (object sender, EventArgs e) =>
-            {
-                Password.Focus();
-            };
-
-            //Login.Completed += (object sender, EventArgs e) =>
-            //{
-            //    vm.LoginCommand.Execute(null);
-            //};
+            Password.Focus();
+            
         }
 
         protected async override void OnAppearing()

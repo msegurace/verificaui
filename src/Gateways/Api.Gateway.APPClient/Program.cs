@@ -21,6 +21,7 @@ builder.Services.Configure<ApiUrls>(
 builder.Services.AddHttpClient<IIdentityProxy, IdentityProxy>();
 builder.Services.AddHttpClient<IUserProxy, UserProxy>();
 builder.Services.AddHttpClient<ITokenProxy, TokenProxy>();
+builder.Services.AddHttpClient<IApplicationProxy, ApplicationProxy>();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

@@ -9,12 +9,11 @@
 
         Task<VerificaAppGenericResponse> ValidateUser(VerificaAppUser user);
 
-        //Task<List<AuthRequest>> GetTokens(VerificaAppUser user);      
-        Task<VerificaAppGenericResponse> GetTokens(VerificaAppUser user);
+        Task<VerificaAppGenericResponse> GetTokens(int idUser);
 
-        Task<string> AcceptToken(VerificaAppUser user);
+        Task<bool> AcceptToken(int id);
 
-        Task<string> RejectToken(VerificaAppUser user);
+        Task<bool> RejectToken(int id);
 
     }
 }

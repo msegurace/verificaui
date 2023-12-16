@@ -9,9 +9,11 @@ namespace VerificaApp.ViewModels
         private readonly IVerificaAppService _VerificaAppService;
 
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsButtonEnabled))]
         private string login;
 
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsButtonEnabled))]
         private string password;
 
         [ObservableProperty]
@@ -42,8 +44,9 @@ namespace VerificaApp.ViewModels
         {
             _VerificaAppService = VerificaAppService;
 
-            IsButtonRegisterVisible = false;
+            IsButtonRegisterVisible = true;
 
+            Login = SecureStorage.GetAsync("username").Result;
         }
         #endregion
 
@@ -72,7 +75,7 @@ namespace VerificaApp.ViewModels
                     MainThreadHelper.BeginInvokeOnMainThread(async () =>
                     {
                         //Redirecciona a autorizaciones
-                        //await Shell.Current.GoToAsync($"//{nameof(ItemsPage)}");
+                        await Shell.Current.GoToAsync($"//{nameof(ItemsPage)}");
                     });                    
                 }
                 IsBusy = false;
@@ -105,10 +108,10 @@ namespace VerificaApp.ViewModels
                         SecureStorage.GetAsync("password").Result))
                 {
                     
-                        MainThread.BeginInvokeOnMainThread(async () =>
+                        MainThreadHelper.BeginInvokeOnMainThread(async () =>
                         {
                             //Redirecciona a autorizaciones
-                            //await Shell.Current.GoToAsync($"//{nameof(ItemsPage)}");
+                            await Shell.Current.GoToAsync($"//{nameof(ItemsPage)}");
                         });
                     
                 } 
@@ -142,7 +145,7 @@ namespace VerificaApp.ViewModels
                     guid = guid
                 };
 
-                var response = await _VerificaAppService.GenericRequest(user,CommonConstants.VALIDATE_USER_URL);
+                var response = await _VerificaAppService.ValidateUser(user);
                 if (response.content.Equals("OK"))
                 {
                     return true;

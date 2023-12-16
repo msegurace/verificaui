@@ -33,7 +33,11 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 	</PropertyGroup>
 
-	<ItemGroup>
+  <PropertyGroup>
+    <AndroidHttpClientHandlerType>DangerousAndroidMessageHandler, DangerousAndroidMessageHandler</AndroidHttpClientHandlerType>
+  </PropertyGroup>
+
+  <ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
 
@@ -55,6 +59,11 @@
 	  <None Remove="Resources\Fonts\FontAwesome6BrandsRegular400.otf" />
 	  <None Remove="Resources\Fonts\FontAwesome6FreeRegular400.otf" />
 	  <None Remove="Resources\Fonts\FontAwesome6FreeSolid900.otf" />
+	  <None Remove="Resources\Images\Fingerprint.png" />
+	  <None Remove="Resources\Images\ic_eye.png" />
+	  <None Remove="Resources\Images\ic_eye_hide.png" />
+	  <None Remove="Resources\Images\logo.png" />
+	  <None Remove="Resources\Images\user.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -71,6 +80,15 @@
 	  <MauiXaml Update="CustomControls\PinBox.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\AboutPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ConfigPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ItemsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\LoginPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -81,5 +99,7 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
+  
+  
 
 </Project>

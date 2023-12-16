@@ -18,10 +18,9 @@ namespace Identity.Api.Helpers
         }
 
         /// <summary>
-        /// Autentica a un usuario contra el LDAP y devuelve un JWT si es satisfactorio.
+        /// Devuelve un JWT válido
         /// </summary>
-        /// <param name="Info"></param>
-        /// <param name="ldapService"></param>
+        /// <param name="usuario">Datos del usuario autenticado</param>
         /// <returns></returns>
         public string GenerateToken(UsuarioDto usuario)
         {
@@ -59,7 +58,7 @@ namespace Identity.Api.Helpers
                 IPrincipal principal = tokenHandler.ValidateToken(authToken, validationParameters, out validatedToken);
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }

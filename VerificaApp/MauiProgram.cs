@@ -33,6 +33,11 @@ namespace VerificaApp
 #if ANDROID
             builder.Services.AddSingleton<ISMSHandler, Platforms.Android.SMSHandler>();
 #endif
+#if ANDROID && DEBUG
+            Platforms.Android.DangerousAndroidMessageHandlerEmitter.Register();
+            Platforms.Android.DangerousTrustProvider.Register();
+#endif
+
             return builder.Build();
         }
     }

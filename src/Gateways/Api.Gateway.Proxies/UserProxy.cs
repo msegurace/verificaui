@@ -21,6 +21,7 @@ namespace Api.Gateways.Proxies
         Task<bool> ModifyAsync(UserModifyCommand command);
         Task<VerificaGenericResponse> RegisterAsync(VerificaAppUserDto user);
         Task<VerificaGenericResponse> EndRegisterAsync(VerificaAppUserDto user);
+        Task<VerificaGenericResponse> ValidateAsync(VerificaAppUserDto user);
     }
     public class UserProxy : IUserProxy
     {
@@ -139,6 +140,31 @@ namespace Api.Gateways.Proxies
             );
 
             var request = await _httpClient.PostAsync(_apiUrls.UserUrl + "v1/users/endregister", content);
+            request.EnsureSuccessStatusCode();
+
+            var res = JsonSerializer.Deserialize<VerificaGenericResponse>(
+                await request.Content.ReadAsStringAsync(),
+                new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                }
+             )!;
+
+            return res;
+        }
+
+        [HttpPost("validate")]
+        [ProducesResponseType(typeof(VerificaGenericResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<VerificaGenericResponse> ValidateAsync(VerificaAppUserDto user)
+        {
+            var content = new StringContent(
+                JsonSerializer.Serialize(user),
+                Encoding.UTF8,
+                new MediaTypeHeaderValue("application/json")
+            );
+
+            var request = await _httpClient.PostAsync(_apiUrls.UserUrl + "v1/users/validate", content);
             request.EnsureSuccessStatusCode();
 
             var res = JsonSerializer.Deserialize<VerificaGenericResponse>(

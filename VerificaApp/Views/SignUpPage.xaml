@@ -7,8 +7,7 @@
              xmlns:vm="clr-namespace:VerificaApp.ViewModels"
              xmlns:local="clr-namespace:VerificaApp.Utils"
              x:DataType="vm:SignUpViewModel"
-             Title=""
-             BackgroundColor="{StaticResource Primary}">
+             Title="">
     <pages:BasePage.Resources>
         <ResourceDictionary>
             <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
@@ -20,14 +19,14 @@
 
     <VerticalStackLayout HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" >
         <StackLayout Grid.Row="0">
-            <Image Source="ic_gobcan.png" Aspect="AspectFill" HeightRequest="200" WidthRequest="220"></Image>
-            <Label Text="Sistema de autorización" FontSize="Title" FontAttributes="Bold" TextColor="White" HorizontalOptions="CenterAndExpand"></Label>
+            <Image Source="logo.png" Aspect="AspectFill" HeightRequest="200" WidthRequest="220"></Image>
+            <Label Text="Registro de usuario" FontSize="Title" FontAttributes="Bold" TextColor="{StaticResource Primary}" HorizontalOptions="CenterAndExpand"></Label>
         </StackLayout>
-        <Frame Grid.Row="2" Margin="20,10" BorderColor="{StaticResource Primary}" HasShadow="True"  CornerRadius="50" >
+        <Frame Grid.Row="2" Margin="20,10" BorderColor="{StaticResource Primary}" BackgroundColor="{StaticResource Frame_Backcolor}" HasShadow="True"  CornerRadius="50" >
             <StackLayout Spacing="10">
-                <Label Grid.Row="0"  Text="Registro de usuario" FontSize="Title" FontAttributes="Bold" TextColor="{StaticResource Primary}" HorizontalOptions="CenterAndExpand"></Label>
+                <Label Grid.Row="0"  Text="Registro de usuario" FontSize="Title" FontAttributes="Bold" TextColor="{StaticResource White}" HorizontalOptions="CenterAndExpand"></Label>
                 <StackLayout Orientation="Horizontal">
-                    <Entry x:Name="Phone" HeightRequest="50" Text="{Binding Phone}"  Placeholder="Teléfono móvil" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                    <Entry x:Name="Phone" HeightRequest="50" TextColor="{StaticResource White}" Text="{Binding Phone}"  Placeholder="Teléfono móvil" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                         <Entry.Behaviors>
                             <toolkit:TextValidationBehavior RegexPattern="([0-9][ -]*){9}"  
                                                         Flags="ValidateOnValueChanged"
@@ -40,7 +39,7 @@
                         <Image.Source>
                             <FontImageSource  FontFamily="FontSolid"
                                     Glyph="&#xf05a;"
-                                    Color="{StaticResource Azul_claro_logo}"
+                                    Color="{StaticResource White}"
                                     Size="Small" />
                         </Image.Source>
                         <Image.GestureRecognizers>
@@ -51,7 +50,7 @@
                     </Image>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal">
-                    <Entry Grid.Row="2" x:Name="Login" HeightRequest="50"  Text="{Binding Login}" Placeholder="Usuario" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                    <Entry Grid.Row="2" x:Name="Login" HeightRequest="50" TextColor="{StaticResource White}" Text="{Binding Login}" Placeholder="Usuario" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                         <Entry.Behaviors>
                             <toolkit:TextValidationBehavior MinimumLength="6" InvalidStyle="{StaticResource InvalidStyle}">
                             </toolkit:TextValidationBehavior>
@@ -61,7 +60,7 @@
                         <Image.Source>
                             <FontImageSource FontFamily="FontSolid"
                                     Glyph="&#xf05a;"
-                                    Color="{StaticResource Azul_claro_logo}"
+                                    Color="{StaticResource White}"
                                     Size="Small" />
                         </Image.Source>
                         <Image.GestureRecognizers>
@@ -75,13 +74,13 @@
                     <Entry  Grid.Row="3" HeightRequest="50" 
                             x:Name="Password" 
                             Text="{Binding Password}" 
+                            TextColor="{StaticResource White}"
                             Placeholder="Contraseña"
                             IsPassword="{Binding Source={x:Reference ShowPasswordActualTrigger}, Path=HidePassword}"
                             HorizontalOptions="FillAndExpand" 
                             VerticalOptions="FillAndExpand"/>
 
                     <ImageButton VerticalOptions="Center"
-                            Margin="0,0,10,0"
                             HeightRequest="20"
                             WidthRequest="20"
                             HorizontalOptions="End"
@@ -95,9 +94,10 @@
                         </ImageButton.Triggers>
                     </ImageButton>
                 </StackLayout>
-                <Button Grid.Row="4" Text="Acceder" HeightRequest="75" 
-                            BackgroundColor="{StaticResource Primary}" 
+                <Button Grid.Row="4" Text="Acceder" 
+                            BackgroundColor="{StaticResource Button_Success_Backcolor}" 
                             CornerRadius="20" 
+                        
                             Command="{Binding SignUpCommand}"
                             IsEnabled="{Binding IsButtonEnabled}">
                 </Button>

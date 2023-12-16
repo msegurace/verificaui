@@ -115,7 +115,25 @@ namespace Users.Api.Controllers
                 };
             }
         }
+        [HttpPost("validate")]
+        [ProducesResponseType(typeof(VerificaGenericResponse), StatusCodes.Status200OK)]
+        public async Task<VerificaGenericResponse> ValidateAsync(VerificaAppUserDto user)
+        {
+            try
+            {
+                return await _queryService.ValidateAsync(user);
+            }
+            catch (Exception ex)
+            {
+                return new VerificaGenericResponse()
+                {
+                    code = "NOK",
+                    content = ex.Message
+                };
+            }
+        }
     }
+
 }
 
 

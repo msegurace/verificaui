@@ -7,26 +7,25 @@
              xmlns:pages="clr-namespace:VerificaApp.Views"
              x:Class="VerificaApp.Views.LoginPage"
              x:DataType="vm:LoginViewModel"
-             Title=""
-             BackgroundColor="{StaticResource Primary}">
+             Title="">
 
-    <VerticalStackLayout HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" >
-            <StackLayout Grid.Row="0"  HorizontalOptions="Center" >
-                <Image Margin="0,20,0,0" Source="ic_gobcan" Aspect="AspectFit" HeightRequest="120" WidthRequest="80"></Image>
-                <Label Text="Sistema de autorización" VerticalOptions="Center" FontSize="24" FontAttributes="Bold" TextColor="White" HorizontalOptions="Start"></Label>
-            </StackLayout>
-            <Frame Grid.Row="1" Margin="20,30" BorderColor="{StaticResource Primary}" HasShadow="True"  CornerRadius="50" >
-                <StackLayout VerticalOptions="Center" Spacing="20">
-                    
-                    <Label Text="Inicio de sesión" FontSize="Title" FontAttributes="Bold" TextColor="{StaticResource Primary}" HorizontalOptions="CenterAndExpand"></Label>
-                <StackLayout Orientation="Horizontal">
-                    <Entry Grid.Row="2" x:Name="Login" HeightRequest="50"  Text="{Binding Login}" Placeholder="Usuario" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                        <Entry.Behaviors>
-                            <toolkit:TextValidationBehavior MinimumLength="6" InvalidStyle="{StaticResource InvalidStyle}">
-                            </toolkit:TextValidationBehavior>
-                        </Entry.Behaviors>
-                    </Entry>
-                    <Image HorizontalOptions="End">
+    <VerticalStackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+
+        <StackLayout Grid.Row="0" VerticalOptions="Center" Spacing="20">
+                <Image Source="logo.png" WidthRequest="200"></Image>
+                <Label Text="Inicio de sesión" FontSize="Title" FontAttributes="Bold" TextColor="{StaticResource Primary}" HorizontalOptions="CenterAndExpand"></Label>
+                <FlexLayout Direction="Row">
+                    <Label FlexLayout.Grow="1" FontSize="Title" x:Name="Login" HeightRequest="50" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <FormattedString.Spans>
+                                    <Span Text="Hola "/>
+                                    <Span Text="{Binding Login}" FontAttributes="Bold"/>
+                                </FormattedString.Spans>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Image Grid.Column="2" HorizontalOptions="End">
                         <Image.Source>
                             <FontImageSource FontFamily="FontSolid"
                                     Glyph="&#xf05a;"
@@ -39,9 +38,9 @@
                                     NumberOfTapsRequired="1" />
                         </Image.GestureRecognizers>
                     </Image>
-                </StackLayout>
-                <StackLayout Orientation="Horizontal">
-                    <Entry  Grid.Row="3" HeightRequest="50" 
+                </FlexLayout>
+                <FlexLayout Direction="Row">
+                    <Entry  FlexLayout.Grow="1" HeightRequest="50" 
                             x:Name="Password" 
                             Text="{Binding Password}" 
                             Placeholder="Contraseña"
@@ -50,7 +49,6 @@
                             VerticalOptions="FillAndExpand"/>
 
                     <ImageButton VerticalOptions="Center"
-                            Margin="0,0,10,0"
                             HeightRequest="20"
                             WidthRequest="20"
                             HorizontalOptions="End"
@@ -63,30 +61,42 @@
                             </EventTrigger>
                         </ImageButton.Triggers>
                     </ImageButton>
-                </StackLayout>
+                </FlexLayout>
 
-                <Button Grid.Row="3" Text="Acceder" HeightRequest="75" 
-                            BackgroundColor="{StaticResource Primary}" 
+                <Button Text="Acceder" HeightRequest="60" 
+                            BackgroundColor="{StaticResource Button_Success_Backcolor}" 
+                        TextColor="Black"
                             CornerRadius="20" 
+                        WidthRequest="200"
                             Command="{Binding PerformLoginCommand}"
-                            IsEnabled="{Binding IsButtonEnabled}">
+                            IsEnabled="True">
                 </Button>
-                <Button Grid.Row="4" 
-                            Text="Acceso biométrico" 
-                            Command="{Binding FingerPrintCommand}"
-                            IsEnabled="{Binding IsBiometricsEnabled}"></Button>
+            </StackLayout>
+        <FlexLayout Direction="Row" Margin="0,100,0,0" >
+                    <ImageButton FlexLayout.Grow="1"
+                            HeightRequest="60"
+                            WidthRequest="60"
+                            HorizontalOptions="StartAndExpand"
+                            Source="user.png"
+                             IsEnabled="{Binding IsButtonRegisterVisible}"
+                            Command="{Binding RegisterCommand}">
+                    </ImageButton>
+                    <ImageButton 
+                            HeightRequest="60"
+                            WidthRequest="60"
+                            HorizontalOptions="End"
+                            Source="fingerprint.png"
+                            IsEnabled="{Binding IsBiometricsEnabled}"
+                            Command="{Binding FingerPrintCommand}">
+                    </ImageButton>
+                </FlexLayout>
 
-                    <Button Grid.Row="5" 
-                            Text="Volver a Registro" 
-                            IsEnabled="{Binding IsButtonRegisterVisible}"
-                            Command="{Binding RegisterCommand}"></Button>
 
-                <ActivityIndicator Grid.Row="3"
+        <ActivityIndicator
                                        Color="{StaticResource Amarillo_logo}"
                                        IsRunning="{Binding IsBusy}">
                 </ActivityIndicator>
-            </StackLayout>
-            </Frame>
-        </VerticalStackLayout>
-    
+            
+    </VerticalStackLayout>
+
 </pages:BasePage>

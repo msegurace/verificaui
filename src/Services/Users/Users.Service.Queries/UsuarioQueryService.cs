@@ -17,6 +17,7 @@ namespace Users.Service.Queries
         Task<UsuarioDto> LoginAsync(LoginInformation info);
         Task<VerificaGenericResponse> RegisterAsync(VerificaAppUserDto user);
         Task<VerificaGenericResponse> EndRegistrationAsync(VerificaAppUserDto user);
+        Task<VerificaGenericResponse> ValidateAsync(VerificaAppUserDto user);
     }
 
     public class UsuarioQueryService: IUsuarioQueryService
@@ -46,14 +47,13 @@ namespace Users.Service.Queries
         {
             try
             {
-
                 var user = (await _context.Usuarios.SingleAsync(x => x.username.ToLower().Trim().Equals(info.username.ToLower().Trim())
                                     && x.password.Equals(info.password))).MapTo<UsuarioDto>();
                 return user;
             }
             catch (Exception ex)
             {
-                return null;
+                return new UsuarioDto();
             }
         }
 
@@ -142,7 +142,43 @@ namespace Users.Service.Queries
             return resp;
         }
 
+        /// <summary>
+        /// Verifica que el móvil, usuario, contraseña y guid pasados por parámetro
+        /// coinciden con el usuario guardado en GdI. 
+        /// </summary>
+        /// <param name="userGCV">Usuario a comprobar</param>
+        /// <returns>true si coincide, false si no</returns>
+        public async Task<VerificaGenericResponse> ValidateAsync(VerificaAppUserDto info)
+        {
+            
+            VerificaGenericResponse resp = new VerificaGenericResponse();
+            resp.code = "OK";
+            try
+            {
+                var user = (await _context.Usuarios.SingleAsync(x => 
+                                   x.username.ToLower().Trim().Equals(info.uid.ToLower().Trim()) &&
+                                   x.password.Equals(info.password) &&
+                                   x.telefono.Equals(info.phone) &&
+                                   x.guid.Equals(info.guid))).MapTo<UsuarioDto>();
+                if (user == null)
+                {
+                   resp.code = "WRONG_REGISTRATION";
+                }
+                else
+                {
+                    resp.content = user;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                throw;
+            }
+            return resp;
+        }
 
+        #region Métodos privados
+
+        #endregion
         /// <summary>
         /// Si no tiene GUID y no ha validado la OTP, la genero para enviarla
         /// </summary>
