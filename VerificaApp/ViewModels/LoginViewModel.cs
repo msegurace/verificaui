@@ -146,7 +146,7 @@ namespace VerificaApp.ViewModels
                 };
 
                 var response = await _VerificaAppService.ValidateUser(user);
-                if (response.content.Equals("OK"))
+                if (response.code.Equals("OK"))
                 {
                     return true;
                 }

@@ -4,7 +4,7 @@
     {
         private ConfigViewModel _configViewModel; 
 
-        public ConfigPage(ConfigViewModel configViewModel)
+        public ConfigPage(ConfigViewModel configViewModel): base(configViewModel) 
         {
             InitializeComponent();
 

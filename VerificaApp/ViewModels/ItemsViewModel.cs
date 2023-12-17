@@ -35,6 +35,8 @@ namespace VerificaApp.ViewModels
             
             Title = "Autorizaciones por gestionar";
             Items = new ObservableCollection<ItemDto>();
+
+            IsBusy = false;
             
             //Hace una petición cada minuto para ver si hay autorizaciones pendientes.
             //Device.StartTimer(new TimeSpan(0, App.RefreshTimer, 0), () =>
@@ -72,8 +74,8 @@ namespace VerificaApp.ViewModels
         [RelayCommand]
         private async Task LoadItems()
         {
-            if (IsBusy)
-                return;
+           // if (IsBusy)
+           //     return;
 
             IsBusy = true;
 
@@ -83,18 +85,29 @@ namespace VerificaApp.ViewModels
             {
                 Items.Clear();
 
-
-                var response = await _verificaService.GetTokens(CurrentUser.id);
-
-                //Respuesta
-                if (response == null || !response.code.Equals("OK"))
+                Items.Add(new ItemDto()
                 {
-                    await AppShell.Current.DisplayAlert("Ha ocurrido un error.", CommonConstants.ReturnMessage(response.code.ToString()), "Aceptar");
-                }
-                else
-                {
-                    Items = JsonSerializer.Deserialize(response.content.ToString(), TokensAppContext.Default.ObservableCollectionItemDto);
-                }
+                    aceptado = false,
+                    aplicacion = "APLICACION DE PRUEBA",
+                    creado = DateTime.Now.AddMinutes(-4),
+                    expira = DateTime.Now.AddMinutes(5),
+                    id=1,
+                    token= "aaaaa",
+                    usuario="mseggon"
+                });
+
+                //TODO: LLamar a bdd
+                //var response = await _verificaService.GetTokens(CurrentUser.id);
+
+                ////Respuesta
+                //if (response == null || !response.code.Equals("OK"))
+                //{
+                //    await AppShell.Current.DisplayAlert("Ha ocurrido un error.", CommonConstants.ReturnMessage(response.code.ToString()), "Aceptar");
+                //}
+                //else
+                //{
+                //    Items = JsonSerializer.Deserialize(response.content.ToString(), TokensAppContext.Default.ObservableCollectionItemDto);
+                //}
             }
             catch (Exception ex)
             {

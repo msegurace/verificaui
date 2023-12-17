@@ -4,7 +4,7 @@
     {
 
         AboutViewModel _viewModel;
-        public AboutPage(AboutViewModel aboutViewModel)
+        public AboutPage(AboutViewModel aboutViewModel) :base(aboutViewModel)
         {
             InitializeComponent();
             _viewModel = aboutViewModel;

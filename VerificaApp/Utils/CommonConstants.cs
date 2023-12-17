@@ -13,8 +13,10 @@
         public static readonly string REJECT_TOKEN_URL = "tokens/reject";
 
         public static string TERMINOS_HOME_PHONE_ACEPTADO = "TerminosHomePhoneAceptado";
-        public static string ACCESS_FROM_OTHER_INSTALLATION = "Se ha identificado un intento de acceso a GobCan Verifica desde otro terminal o instalación.Si ha sido usted, siga los pasos que le han indicado para la nueva instalación.. Si no ha sido usted, proceda a actualizar su contraseña lo antes posible desde MiClave.";
-        public static string INSTALLATION_EXISTS = "Ya existe un terminal con una instalación registrada para estas credenciales. Vaya a MiClave, borre el registro de terminal en la sección ‘Recuperación de contraseñas / GobCan Verifica’ y vuelva a intentarlo.";
+        //public static string ACCESS_FROM_OTHER_INSTALLATION = "Se ha identificado un intento de acceso a GobCan Verifica desde otro terminal o instalación.Si ha sido usted, siga los pasos que le han indicado para la nueva instalación.. Si no ha sido usted, proceda a actualizar su contraseña lo antes posible desde MiClave.";
+        public static string ACCESS_FROM_OTHER_INSTALLATION = "Se ha identificado un intento de acceso a Verifica desde otro terminal o instalación.";
+        //public static string INSTALLATION_EXISTS = "Ya existe un terminal con una instalación registrada para estas credenciales. Vaya a MiClave, borre el registro de terminal en la sección ‘Recuperación de contraseñas / GobCan Verifica’ y vuelva a intentarlo.";
+        public static string INSTALLATION_EXISTS = "Ya existe un terminal con una instalación registrada para estas credenciales.";
         public static string NO_HOME_PHONE = "Para utilizar GobCan Verifica es necesario que usted registre su móvil en MiClave.";
         public static string WRONG_REGISTRATION = "Teléfono móvil, usuario y/o contraseña incorrectos. Si has cambiado la contraseña vuelve a la página de registro para actualizarla, si no, inténtalo de nuevo.";
         public static string CREDENTIALS_CHANGED = "Ha fallado la validación del usuario. Esto puede deberse a cambios en sus credenciales o a una nueva instalación de la App. La App sólo puede estar instalada en un dispositivo.";
@@ -32,7 +34,7 @@
         public static string WRONG_VALIDATION = "Teléfono móvil, Usuario y/o contraseña incorrectas, por favor, inténtalo de nuevo";
         public static string WRONG_BIOMETRIC_VALIDATION = "Error al autenticar mediante biometría.";
 
-        public static string SMS_START = "GDI informa: CODIGO DE ACTIVACION:";
+        public static string SMS_START = "CODIGO DE ACTIVACION VERIFICA: ";
 
         //BOTONES
         public static string BUTTON_OK = "OK";

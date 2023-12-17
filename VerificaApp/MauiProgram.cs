@@ -29,6 +29,12 @@ namespace VerificaApp
             builder.Services.AddTransient<SmsHandlerViewModel>();
             builder.Services.AddTransient<LoginPage>();
             builder.Services.AddTransient<LoginViewModel>();
+            builder.Services.AddTransient<ItemsPage>();
+            builder.Services.AddTransient<ItemsViewModel>();
+            builder.Services.AddTransient<ConfigPage>();
+            builder.Services.AddTransient<ConfigViewModel>();
+            builder.Services.AddTransient<AboutPage>();
+            builder.Services.AddTransient<AboutViewModel>();
             builder.Services.AddSingleton<IVerificaAppService, VerificaAppService>();
 #if ANDROID
             builder.Services.AddSingleton<ISMSHandler, Platforms.Android.SMSHandler>();

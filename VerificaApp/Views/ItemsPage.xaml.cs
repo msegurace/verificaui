@@ -5,7 +5,7 @@
         private ItemsViewModel _viewModel;
 
 
-        public ItemsPage(ItemsViewModel viewModel)
+        public ItemsPage(ItemsViewModel viewModel) : base(viewModel)
         {
             InitializeComponent();
 
