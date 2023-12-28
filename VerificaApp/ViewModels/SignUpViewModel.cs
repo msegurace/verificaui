@@ -39,9 +39,6 @@
         public SignUpViewModel(IVerificaAppService VerificaAppService)
         {
             _VerificaAppService = VerificaAppService;
-            Phone = "999666333";
-            Login = "mseggon";
-            Password = "mseggon";
         }
 
         

@@ -7,7 +7,9 @@
              xmlns:vm="clr-namespace:VerificaApp.ViewModels"
              xmlns:local="clr-namespace:VerificaApp.Utils"
              x:DataType="vm:SignUpViewModel"
-             Title="">
+             Shell.NavBarIsVisible="False"
+             Shell.FlyoutBehavior="Disabled"
+             Title="Registro">
     <pages:BasePage.Resources>
         <ResourceDictionary>
             <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
@@ -107,5 +109,6 @@
                 </ActivityIndicator>
             </StackLayout>
         </Frame>
+        
     </VerticalStackLayout>
 </pages:BasePage>

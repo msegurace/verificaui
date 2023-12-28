@@ -4,36 +4,135 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:VerificaApp.Views"
-    Shell.FlyoutBehavior="Disabled">
+    xmlns:controls="clr-namespace:VerificaApp.CustomControls"
+    x:Name="shell"
+    Shell.FlyoutBehavior="Flyout"
+    Shell.TabBarIsVisible="False">
 
+    <Shell.FlyoutHeader>
+        <controls:FlyoutHeader />
+    </Shell.FlyoutHeader>
+
+    <Shell.FlyoutFooter>
+        <controls:FlyoutFooter />
+    </Shell.FlyoutFooter>
+
+
+    <Shell.ItemTemplate>
+        <DataTemplate>
+            <Grid ColumnDefinitions="0.2*,0.8*">
+                <Image Source="{Binding FlyoutIcon}"
+                       Margin="10"
+                       HeightRequest="25" />
+                <Label Grid.Column="1"
+                       Text="{Binding Title}"
+                       FontSize="Medium"
+                       VerticalTextAlignment="Center"
+                       TextColor="{StaticResource Frame_Backcolor}"/>
+            </Grid>
+        </DataTemplate>
+    </Shell.ItemTemplate>
+
+    <Shell.MenuItemTemplate>
+        <DataTemplate>
+            <Grid ColumnDefinitions="0.2*,0.8*">
+                <Image Source="{Binding FlyoutIcon}"
+                       Margin="10"
+                       HeightRequest="25" />
+                <Label Grid.Column="1"
+                       Text="{Binding Title}"
+                       FontSize="Medium"
+                       VerticalTextAlignment="Center"
+                       TextColor="{StaticResource Frame_Backcolor}"/>
+            </Grid>
+        </DataTemplate>
+    </Shell.MenuItemTemplate>
+    
     <ShellContent
         Title="SignUp"
         ContentTemplate="{DataTemplate local:SignUpPage}"
-        Route="SignUpPage" />
+        Route="SignUpPage" 
+        FlyoutItemIsVisible="False"/>
+    
+    <ShellContent
+        Title="Login"
+        ContentTemplate="{DataTemplate local:LoginPage}"
+        Route="LoginPage" 
+        FlyoutItemIsVisible="False"/>
+
+    <ShellContent
+        Title="ExpiredSession"
+        ContentTemplate="{DataTemplate local:ExpiredSession}"
+        Route="ExpiredSession" 
+        FlyoutItemIsVisible="False"/>
+
+   
 
     <ShellContent
         Title="SMS"
         ContentTemplate="{DataTemplate local:SmsHandlerPage}"
-        Route="SmsHandlerPage" />
+        Route="SmsHandlerPage" 
+        FlyoutItemIsVisible="False"/>
 
-    <ShellContent
-        Title="Login"
-        ContentTemplate="{DataTemplate local:LoginPage}"
-        Route="LoginPage" />
 
-    <ShellContent
-        Title="Items"
+
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems"  >
+        <ShellContent
+            Title="Mis datos"
+            ContentTemplate="{DataTemplate local:ConfigPage}"
+            Route="ConfigPage">
+            <ShellContent.Icon>
+                <FontImageSource  FontFamily="FontSolid"
+                                    Glyph="&#xf007;"
+                                    Color="{StaticResource Frame_Backcolor}"
+                                    Size="Small" />
+            </ShellContent.Icon>
+        </ShellContent>
+        <ShellContent
+        Title="Autorizaciones"
         ContentTemplate="{DataTemplate local:ItemsPage}"
-        Route="ItemsPage" />
+        Route="ItemsPage">
+            <ShellContent.Icon>
+                <FontImageSource  FontFamily="FontSolid"
+                                    Glyph="&#xf0ae;"
+                                    Color="{StaticResource Frame_Backcolor}"
+                                    Size="Small" />
+            </ShellContent.Icon>
+        </ShellContent>
+    </FlyoutItem>
 
-    <ShellContent
-        Title="About"
+
+    <MenuItem Text="Ayuda" Clicked="MenuItem_Clicked">
+        <MenuItem.IconImageSource>
+            <FontImageSource  FontFamily="FontSolid"
+                                    Glyph="&#xf059;"
+                                    Color="{StaticResource Frame_Backcolor}"
+                                    Size="Small" />
+            </MenuItem.IconImageSource>
+        </MenuItem>
+
+    
+        <ShellContent
+        Title="Acerca de..."
         ContentTemplate="{DataTemplate local:AboutPage}"
-        Route="AboutPage" />
+        Route="AboutPage">
+            <ShellContent.Icon>
+                <FontImageSource  FontFamily="FontSolid"
+                                    Glyph="&#xf05a;"
+                                    Color="{StaticResource Frame_Backcolor}"
+                                    Size="Small" />
+            </ShellContent.Icon>
+        </ShellContent>
+    
 
-    <ShellContent
-        Title="Config"
-        ContentTemplate="{DataTemplate local:ConfigPage}"
-        Route="ConfigPage" />
+    <MenuItem Text="Salir" Clicked="MenuItem_Clicked_1">
+        <MenuItem.IconImageSource>
+            <FontImageSource  FontFamily="FontSolid"
+                                    Glyph="&#xf52b;"
+                                    Color="{StaticResource Frame_Backcolor}"
+                                    Size="Small" />
+        </MenuItem.IconImageSource>
+    </MenuItem>
+
 
 </Shell>

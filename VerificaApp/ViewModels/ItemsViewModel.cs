@@ -1,6 +1,4 @@
-﻿using static VerificaApp.Models.ItemDto;
-
-namespace VerificaApp.ViewModels
+﻿namespace VerificaApp.ViewModels
 {
     public partial class ItemsViewModel : BaseViewModel
     {
@@ -21,6 +19,9 @@ namespace VerificaApp.ViewModels
 
         [ObservableProperty]
         private bool isBusy;
+
+        [ObservableProperty]
+        private bool isRefreshing;
 
         public int LastId { get; set; }
 
@@ -43,41 +44,21 @@ namespace VerificaApp.ViewModels
             SessionDuration = TimeSpan.FromMinutes(CommonConstants.RefreshTimer);
             StopWatch.Start();
 
+            AppSessionManager.Instance.StartSession();
+
             timer = Application.Current.Dispatcher.CreateTimer();
             timer.Interval = TimeSpan.FromSeconds(10);
             timer.Tick += (s, e) => TimerTick();
             timer.Start();
-
-            AppSessionManager.Instance.StartSession();
-
         }
 
-
-        private void TimerTick()
-        {
-            if (StopWatch.IsRunning && StopWatch.Elapsed.Minutes >= SessionDuration.Minutes)
-            {
-                if (Items.Count == 0)
-                {
-                    if (LoadItemsCommand.CanExecute(null))
-                    {
-                        LoadItemsCommand.Execute(null);
-                        Console.WriteLine("****** Llamado desde constructor");
-                    }
-                }
-                StopWatch.Restart();
-            }
-        }
         #endregion
 
         #region Métodos
         [RelayCommand]
-        private async Task LoadItems()
+        public async Task LoadItems()
         {
-           // if (IsBusy)
-           //     return;
-
-            IsBusy = true;
+            if (CurrentUser == null) return;
 
             EmptyViewLabel = "Autorizaciones por gestionar";
 
@@ -85,29 +66,13 @@ namespace VerificaApp.ViewModels
             {
                 Items.Clear();
 
-                Items.Add(new ItemDto()
+                var response = await _verificaService.GetTokens(CurrentUser.id);
+
+                //Respuesta
+                foreach (var item in response)
                 {
-                    aceptado = false,
-                    aplicacion = "APLICACION DE PRUEBA",
-                    creado = DateTime.Now.AddMinutes(-4),
-                    expira = DateTime.Now.AddMinutes(5),
-                    id=1,
-                    token= "aaaaa",
-                    usuario="mseggon"
-                });
-
-                //TODO: LLamar a bdd
-                //var response = await _verificaService.GetTokens(CurrentUser.id);
-
-                ////Respuesta
-                //if (response == null || !response.code.Equals("OK"))
-                //{
-                //    await AppShell.Current.DisplayAlert("Ha ocurrido un error.", CommonConstants.ReturnMessage(response.code.ToString()), "Aceptar");
-                //}
-                //else
-                //{
-                //    Items = JsonSerializer.Deserialize(response.content.ToString(), TokensAppContext.Default.ObservableCollectionItemDto);
-                //}
+                    Items.Add(item);
+                }
             }
             catch (Exception ex)
             {
@@ -117,6 +82,7 @@ namespace VerificaApp.ViewModels
             finally
             {
                 IsBusy = false;
+                IsRefreshing = false;
                 EmptyViewLabel = String.Concat("Actualmente no tienes autorizaciones por gestionar.",
                     Environment.NewLine, Environment.NewLine, Environment.NewLine,
                     "Desliza hacia abajo para refrescar.");
@@ -200,8 +166,8 @@ namespace VerificaApp.ViewModels
 
         public void OnAppearing()
         {
-            IsBusy = true;
             StopWatch.Restart();
+
         }
 
         public void OnDissapearing()
@@ -209,7 +175,22 @@ namespace VerificaApp.ViewModels
             StopWatch.Stop();
         }
 
-        
+        private void TimerTick()
+        {
+            if (StopWatch.IsRunning && StopWatch.Elapsed.Minutes >= SessionDuration.Minutes)
+            {
+                if (Items.Count == 0)
+                {
+                    if (LoadItemsCommand.CanExecute(null))
+                    {
+                        LoadItemsCommand.Execute(null);
+                       // Console.WriteLine("****** Llamado desde constructor");
+                    }
+                }
+                StopWatch.Restart();
+            }
+        }
+
         #endregion
 
     }

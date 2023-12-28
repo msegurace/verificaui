@@ -5,7 +5,7 @@
              x:Class="VerificaApp.Views.AboutPage"
              xmlns:vm="clr-namespace:VerificaApp.ViewModels"
              x:DataType="vm:AboutViewModel"
-             Title=""
+             Title="Acerca de..."
              BackgroundColor="White">
 
     <pages:BasePage.Resources>
@@ -14,52 +14,23 @@
         </ResourceDictionary>
     </pages:BasePage.Resources>
 
-    <VerticalStackLayout HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" >
-        <Image Source="splash_image" Grid.Row="0"></Image>
-        <Label Margin="10,-150,10,10" Grid.Row="1" Text="Aplicación para autorizar las solicitudes de segundo factor de autenticación para acceder a aplicaciones a través del Single Sign On corporativo." 
+    <Grid RowDefinitions="250,*,Auto,Auto" HorizontalOptions="FillAndExpand"  >
+        <Image Grid.Row="0" Source="logo.png"></Image>
+        <Label Grid.Row="1" Text="Aplicación para autorizar las solicitudes de segundo factor de autenticación." 
                        FontSize="Medium" 
-                       TextColor="{StaticResource Azul_claro_logo}"
+                       TextColor="{StaticResource Frame_Backcolor}"
                        HorizontalTextAlignment="Center"/>
 
-        <Label Grid.Row="2" HorizontalOptions="Center" HorizontalTextAlignment="Center">
-            <Label.FormattedText>
-                <FormattedString>
-                    <Span Text="Pulsa "
-                                      TextColor="{StaticResource Gris_escudo}"
-                                      FontSize="Micro"/>
-                    <Span Text="aquí"
-                                      TextColor="Blue"
-                                      TextDecorations="Underline">
-                        <Span.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding TapCommand}"
-                                          CommandParameter="https://gobcan.info/86cdq" />
-                        </Span.GestureRecognizers>
-                    </Span>
-                    <Span Text=" para acceder a la sección de GobCan Verifica EN SIRVETE." 
-                                      TextColor="{StaticResource Gris_escudo}"
-                                      FontSize="Micro"/>
-                </FormattedString>
-            </Label.FormattedText>
-        </Label>
-        <Label Grid.Row="3" TextColor="{StaticResource Gris_escudo}" 
-                       FontSize="12" 
+        <Label Grid.Row="2" TextColor="{StaticResource Gris_escudo}" 
+                       FontSize="15" 
                        HorizontalTextAlignment="Center"
-                       Text="©-2022-Dirección General de Telecomunicaciones y Nuevas Tecnologías" FontAttributes="Bold">
+                       Text="©-2024-Moisés Segura Cedrés-TFM-UOC" FontAttributes="Bold">
         </Label>
-        <Label Grid.Row ="4" 
+        <Label Grid.Row ="3" 
+               Text="{Binding VersionString}"
                        TextColor="{StaticResource Gris_escudo}"
                        HorizontalTextAlignment="Center"
                        FontSize="12">
-            <Label.FormattedText>
-                <FormattedString>
-                    <FormattedString.Spans>
-                        <Span Text="Versión "/>
-                        <Span Text="{Binding Version}" FontAttributes="Bold"/>
-                        <Span Text="."/>
-                        <Span Text="{Binding Build}" FontAttributes="Bold"/>
-                    </FormattedString.Spans>
-                </FormattedString>
-            </Label.FormattedText>
         </Label>
-    </VerticalStackLayout>
+    </Grid>
 </pages:BasePage>

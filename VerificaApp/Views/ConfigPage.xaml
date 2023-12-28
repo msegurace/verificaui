@@ -5,34 +5,30 @@
              xmlns:vm="clr-namespace:VerificaApp.ViewModels"
              x:Class="VerificaApp.Views.ConfigPage"
              x:DataType="vm:ConfigViewModel"
-             Title="Configuración"
-              BackgroundColor="{StaticResource Primary}">
+             Title="Configuración">
 
-    <VerticalStackLayout HorizontalOptions="FillAndExpand">
-        <Frame Grid.Row="1"  Margin="20,30" BorderColor="{StaticResource Primary}" HasShadow="True"  CornerRadius="50" >
-            <VerticalStackLayout>
-                <Label Grid.Row="0" Text="Datos almacenados" TextColor="{StaticResource Primary}"></Label>
-                <HorizontalStackLayout Grid.Row="1" Spacing="10">
-                    <Label Text="Nº Móvil:" TextColor="{StaticResource Primary}" HorizontalTextAlignment="End"></Label>
-                    <Label Text="{Binding Phone}" TextColor="{StaticResource Primary}"></Label>
+    <VerticalStackLayout HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+        <Frame BackgroundColor="{StaticResource Frame_Backcolor}" HasShadow="True"  CornerRadius="50" >
+            <VerticalStackLayout Spacing="20">
+                <Label Text="Datos almacenados" TextColor="{StaticResource White}" FontSize="Title" FontAttributes="Bold"></Label>
+                <HorizontalStackLayout Spacing="10">
+                    <Label Text="Nº Móvil:" TextColor="{StaticResource White}" FontSize="Title" HorizontalTextAlignment="End"></Label>
+                    <Label Text="{Binding Phone}" TextColor="{StaticResource White}" FontSize="Title"></Label>
                 </HorizontalStackLayout>
-                <HorizontalStackLayout Grid.Row="2" Spacing="10">
-                    <Label Grid.Column="0" Text="Usuario:" TextColor="{StaticResource Primary}" HorizontalTextAlignment="End"></Label>
-                    <Label Grid.Column="1" Text="{Binding Login}" TextColor="{StaticResource Primary}"></Label>
+                <HorizontalStackLayout Spacing="10">
+                    <Label Text="Usuario:" TextColor="{StaticResource White}" FontSize="Title" HorizontalTextAlignment="End"></Label>
+                    <Label Text="{Binding Login}" TextColor="{StaticResource White}" FontSize="Title"></Label>
                 </HorizontalStackLayout>
-                <Button Grid.Row="3"
-                            WidthRequest="200"
-                            HorizontalOptions="Center"
-                            Text="Actualizar datos" 
-                            Command="{Binding GotoSignUpCommand}"></Button>
-                <BoxView Grid.Row="5" 
-                             HorizontalOptions="FillAndExpand" HeightRequest="1" 
-                             Margin="10,0,10,0"
-                             Color="{StaticResource Gris_escudo}" />
-                <HorizontalStackLayout Grid.Row="6" Spacing="10">
-                    <Label Text="Permitir acceso biométrico" TextColor="{StaticResource Primary}"></Label>
+                <Button WidthRequest="200"
+                        HorizontalOptions="Center"
+                        Text="Modificar" 
+                        BackgroundColor="{StaticResource Button_Success_Backcolor}"
+                        Command="{Binding GotoSignUpCommand}"></Button>
+                <Line BackgroundColor="{StaticResource White}"></Line>
+                <HorizontalStackLayout Spacing="10">
+                    <Label Text="Permitir acceso biométrico" TextColor="{StaticResource White}" FontSize="20" VerticalTextAlignment="Center"></Label>
                     <Switch  x:Name="BiometricAccess" IsToggled="{Binding IsBiometricsEnabled}" 
-                                 HorizontalOptions="Start" Toggled="BiometricAccess_Toggled"/>
+                                 HorizontalOptions="End" Toggled="BiometricAccess_Toggled"/>
                 </HorizontalStackLayout>
             </VerticalStackLayout>
         </Frame>

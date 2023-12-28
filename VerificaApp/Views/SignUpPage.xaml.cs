@@ -8,26 +8,37 @@ public partial class SignUpPage : BasePage
     public string Name { get { return "SignUpPage"; } }
 
     private SignUpViewModel _viewModel;
-    private MainViewModel _mainViewModel;
 
-    public SignUpPage(SignUpViewModel signUpViewModel, MainViewModel mainViewModel) : base(signUpViewModel)
+    public SignUpPage(SignUpViewModel signUpViewModel) : base(signUpViewModel)
 	{
 		InitializeComponent();
 
         this._viewModel = signUpViewModel;
-        _mainViewModel = mainViewModel;
 
-        if (_mainViewModel.TestForRegisteredUser) { 
-            _viewModel.TestAlreadySignedUp(Name);
+        Task.Run(CheckNavigation).Wait();
+
+    }
+
+    private async Task CheckNavigation()
+    {
+         if (_viewModel.TestForRegisteredUser)
+        {
+            await _viewModel.TestAlreadySignedUp(Name);
             _viewModel.TestForRegisteredUser = true;
         }
         else
         {
-            _viewModel.Login = SecureStorage.GetAsync("username").Result;
-            _viewModel.Phone = SecureStorage.GetAsync("phone").Result;
+            _viewModel.Login = await SecureStorage.GetAsync("username");
+            _viewModel.Phone = await SecureStorage.GetAsync("phone");
         }
     }
 
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+       
+    }
     private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
         var snackBar = Snackbar.Make(

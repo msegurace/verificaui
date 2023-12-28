@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
+using System;
 
 namespace VerificaApp.ViewModels
 {
@@ -75,7 +76,9 @@ namespace VerificaApp.ViewModels
                     MainThreadHelper.BeginInvokeOnMainThread(async () =>
                     {
                         //Redirecciona a autorizaciones
-                        await Shell.Current.GoToAsync($"//{nameof(ItemsPage)}");
+                        IDictionary<string, object> map = new Dictionary<string, object>();
+                        map.Add("user", CurrentUser);
+                        await Shell.Current.GoToAsync($"//{nameof(ItemsPage)}",true, map);
                     });                    
                 }
                 IsBusy = false;
@@ -89,7 +92,10 @@ namespace VerificaApp.ViewModels
                             new AuthenticationRequestConfiguration(CommonConstants.BIOMETRIC_TITLE,
                                 CommonConstants.BIOMETRIC_MESSAGE));
             //No se ha mostrado la validación
-            if (authResult.Status.Equals(FingerprintAuthenticationResultStatus.UnknownError))
+            if (authResult.Status.Equals(FingerprintAuthenticationResultStatus.UnknownError) ||
+                (authResult.Status.Equals(FingerprintAuthenticationResultStatus.Canceled)) ||
+                (authResult.Status.Equals(FingerprintAuthenticationResultStatus.NotAvailable)) ||
+                (authResult.Status.Equals(FingerprintAuthenticationResultStatus.Denied)))
             {
                 return;
             }
@@ -111,7 +117,9 @@ namespace VerificaApp.ViewModels
                         MainThreadHelper.BeginInvokeOnMainThread(async () =>
                         {
                             //Redirecciona a autorizaciones
-                            await Shell.Current.GoToAsync($"//{nameof(ItemsPage)}");
+                            IDictionary<string, object> map = new Dictionary<string, object>();
+                            map.Add("user", CurrentUser);
+                            await Shell.Current.GoToAsync($"//{nameof(ItemsPage)}",true, map);
                         });
                     
                 } 
@@ -132,7 +140,15 @@ namespace VerificaApp.ViewModels
                 {
                     MainThreadHelper.BeginInvokeOnMainThread(async () =>
                     {
-                        await Shell.Current.GoToAsync($"///{nameof(SmsHandlerPage)}");
+                        VerificaAppUser smsuser = new VerificaAppUser
+                        {
+                            phone = await SecureStorage.GetAsync("phone"),
+                            uid = Login,
+                            password = Password,
+                        };
+                        IDictionary<string, object> map = new Dictionary<string, object>();
+                        map.Add("user", smsuser);
+                        await Shell.Current.GoToAsync($"///{nameof(SmsHandlerPage)}", true, map);
                     });
                     return false;
                 }
@@ -144,10 +160,11 @@ namespace VerificaApp.ViewModels
                     password = Password,
                     guid = guid
                 };
-
                 var response = await _VerificaAppService.ValidateUser(user);
                 if (response.code.Equals("OK"))
                 {
+                    user = JsonSerializer.Deserialize(response.content.ToString(), VerificaAppUserContext.Default.VerificaAppUser);
+                    CurrentUser = user;
                     return true;
                 }
                 else
@@ -166,8 +183,14 @@ namespace VerificaApp.ViewModels
         //Comprueba si el teléfono tiene sensor de huellas y si ya hay un usuario validado
         public async Task BiometricsAvailable()
         {
-            IsBiometricsEnabled = 
-                await CrossFingerprint.Current.IsAvailableAsync() && 
+
+            //Console.WriteLine("CrossFingerprint: " + CrossFingerprint.Current.ToString());
+            //Console.WriteLine("CrossFingerprint: " + await CrossFingerprint.Current.IsAvailableAsync());
+            //Console.WriteLine("Is User Validated: " + await isUserValidated());
+            //Console.WriteLine("biometricenabled: " + bool.Parse(await SecureStorage.GetAsync("biometricenabled")));
+            //var avialable = await CrossFingerprint.Current.GetAvailabilityAsync();
+            IsBiometricsEnabled =
+                await CrossFingerprint.Current.IsAvailableAsync() &&
                 await isUserValidated() &&
                 await SecureStorage.GetAsync("biometricenabled") != null &&
                 bool.Parse(await SecureStorage.GetAsync("biometricenabled"));
@@ -178,6 +201,7 @@ namespace VerificaApp.ViewModels
         {
             MainThreadHelper.BeginInvokeOnMainThread(async () =>
             {
+                TestForRegisteredUser = false;
                 await Shell.Current.GoToAsync($"///{nameof(SignUpPage)}");
             });
 

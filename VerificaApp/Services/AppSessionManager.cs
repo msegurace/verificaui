@@ -66,8 +66,7 @@
             MainThreadHelper.BeginInvokeOnMainThread(async () =>
             {
                 EndSession();
-                await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
-                await Application.Current.MainPage.DisplayAlert("Sesión expirada", "Su sesión ha expirado.", "Aceptar");
+                await Shell.Current.GoToAsync($"//{nameof(ExpiredSession)}");
             });
         }
     }

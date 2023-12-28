@@ -42,7 +42,6 @@
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
@@ -64,6 +63,13 @@
 	  <None Remove="Resources\Images\ic_eye_hide.png" />
 	  <None Remove="Resources\Images\logo.png" />
 	  <None Remove="Resources\Images\user.png" />
+	  <None Remove="Resources\Splash\splash.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#FFFFFF">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </MauiSplashScreen>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -73,10 +79,22 @@
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Maui" Version="5.3.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
-    <PackageReference Include="Plugin.Fingerprint" Version="2.1.5" />
+    <PackageReference Include="Plugin.Fingerprint" Version="3.0.0-beta.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\ExpiredSession.xaml.cs">
+      <DependentUpon>ExpiredSession.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="CustomControls\FlyoutFooter.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="CustomControls\FlyoutHeader.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="CustomControls\PinBox.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -92,12 +110,21 @@
 	  <MauiXaml Update="Views\LoginPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\ExpiredSession.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\SignUpPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\SmsHandlerPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
+	  <PackageReference Include="Xamarin.AndroidX.Migration">
+	    <Version>1.0.10</Version>
+	  </PackageReference>
 	</ItemGroup>
   
   

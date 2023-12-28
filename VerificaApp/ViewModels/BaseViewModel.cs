@@ -1,7 +1,4 @@
-﻿
-using static Microsoft.Maui.ApplicationModel.Permissions;
-
-namespace VerificaApp.ViewModels;
+﻿namespace VerificaApp.ViewModels;
 
 public partial class BaseViewModel : ObservableObject
 {
@@ -15,6 +12,16 @@ public partial class BaseViewModel : ObservableObject
     private VerificaAppUser currentUser;
 
     #region Methods
+
+    public string VersionString
+    {
+        get => string.Concat("Versión ", AppInfo.Current.VersionString, ".", AppInfo.Current.BuildString);
+    }
+
+    public BaseViewModel()
+    {
+        TestForRegisteredUser = true;
+    }
 
     /// <summary>
     /// Si el usuario ya se ha registrado redirige a la Login Page, si no al registro
@@ -47,8 +54,6 @@ public partial class BaseViewModel : ObservableObject
             !string.IsNullOrEmpty(await SecureStorage.Default.GetAsync("phone")) &&
             !string.IsNullOrEmpty(await SecureStorage.Default.GetAsync("guid"));     
     }
-
-
 
     public async void HandleCredentialsChanged()
     {

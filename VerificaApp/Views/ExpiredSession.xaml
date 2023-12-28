@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="VerificaApp.Views.ExpiredSession"
+             Shell.NavBarIsVisible="False"
+             Shell.FlyoutBehavior="Disabled"
+             Title="Sesión expirada">
+    <VerticalStackLayout Spacing="20" Margin="10" VerticalOptions="CenterAndExpand">
+        <Image Aspect="AspectFit"
+                       Source="logo.png"
+                       HeightRequest="150"/>
+        <Label 
+            Text="Sesión Expirada"
+            TextColor="{StaticResource Frame_Backcolor}"
+            FontSize="Title"
+            FontAttributes="Bold"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+        <Label 
+            TextColor="{StaticResource Frame_Backcolor}"
+            Text="Tu sesión ha caducado por motivos de seguriad. Pulsa el botón para volver a la pantalla de inicio de sesión e identifícate de nuevo."
+            FontSize="Subtitle"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+        <Button x:Name="btnVolver" Margin="0,40,0,0"
+                BackgroundColor="{StaticResource Button_Success_Backcolor}" 
+               CornerRadius="20" 
+                VerticalOptions="End"
+                Text="Volver"
+                TextColor="{StaticResource Frame_Backcolor}"
+                WidthRequest="200"
+                Clicked="btnVolver_Clicked"></Button>
+    </VerticalStackLayout>
+</ContentPage>

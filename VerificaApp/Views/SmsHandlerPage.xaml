@@ -8,7 +8,9 @@
              xmlns:local="clr-namespace:VerificaApp.Utils"
              xmlns:customControls="clr-namespace:VerificaApp.CustomControls"
              x:DataType="vm:SmsHandlerViewModel"
-             Title=""
+             Shell.NavBarIsVisible="False"
+             Shell.FlyoutBehavior="Disabled"
+             Title="SMS"
              BackgroundColor="{StaticResource Primary}">
     <pages:BasePage.Resources>
         <ResourceDictionary>
@@ -27,7 +29,7 @@
         <Frame Grid.Row="1" Margin="20,10" BorderColor="{StaticResource Primary}" HasShadow="True"  CornerRadius="50" >
 
             <StackLayout Spacing="10">
-                <Frame Padding="8" BorderColor="Green" >
+                <Frame Padding="8" BorderColor="{StaticResource Button_Success_Backcolor}" >
                     <Entry x:Name="pinBox"
                        HorizontalOptions="Center" 
                        HorizontalTextAlignment="Center"

@@ -3,19 +3,26 @@ using CommunityToolkit.Maui.Alerts;
 
 namespace VerificaApp.Views
 {
+    [QueryProperty(nameof(user), "user")]
     public partial class LoginPage : BasePage
     {
+        private LoginViewModel _viewModel;
 
         public string Name { get { return "LoginPage"; } }
 
-        private LoginViewModel _viewModel;
+        public VerificaAppUser user
+        {
+            set
+            {
+                _viewModel.CurrentUser = value;
+            }
+        }
+
         public LoginPage(LoginViewModel loginViewModel) : base(loginViewModel) 
         {
             InitializeComponent();
 
             _viewModel = loginViewModel;
-
-            _viewModel.TestAlreadySignedUp(Name);
 
             Password.Focus();
             
@@ -24,6 +31,8 @@ namespace VerificaApp.Views
         protected async override void OnAppearing()
         {
             base.OnAppearing();
+
+            await _viewModel.TestAlreadySignedUp(Name);
 
             await _viewModel.BiometricsAvailable();
             if (_viewModel.IsBiometricsEnabled)

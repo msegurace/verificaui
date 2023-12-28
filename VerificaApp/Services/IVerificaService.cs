@@ -9,7 +9,7 @@
 
         Task<VerificaAppGenericResponse> ValidateUser(VerificaAppUser user);
 
-        Task<VerificaAppGenericResponse> GetTokens(int idUser);
+        Task<List<ItemDto>> GetTokens(int idUser);
 
         Task<bool> AcceptToken(int id);
 

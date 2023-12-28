@@ -7,7 +7,7 @@
              xmlns:pages="clr-namespace:VerificaApp.Views"
              x:Class="VerificaApp.Views.ItemsPage"
              x:DataType="vm:ItemsViewModel"
-             Title=""
+             Title="Autorizaciones"
              x:Name="BrowseItemsPage">
 
     <pages:BasePage.Resources>
@@ -15,69 +15,90 @@
             <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
         </ResourceDictionary>
     </pages:BasePage.Resources>
+    <AbsoluteLayout>
+        <StackLayout
+        x:Name="mainLayout"
+        AbsoluteLayout.LayoutBounds="0,0,1,1"
+                 AbsoluteLayout.LayoutFlags="All" >
 
             <!--
       x:DataType enables compiled bindings for better performance and compile time validation of binding expressions.
       https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/compiled-bindings
     -->
-    <RefreshView x:DataType="vm:ItemsViewModel" Command="{Binding LoadItemsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
-        <CollectionView x:Name="ItemsListView"
+            <RefreshView x:DataType="vm:ItemsViewModel" Command="{Binding LoadItemsCommand}" IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}">
+                <CollectionView x:Name="ItemsListView"
                 ItemsSource="{Binding Items}"
                 SelectionMode="None"
                         EmptyView="{Binding EmptyViewLabel}" 
                         Margin="10,10,10,10">
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical"
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical"
                            ItemSpacing="10" />
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Frame  BorderColor="{StaticResource Primary}" BackgroundColor="{StaticResource Primary}" CornerRadius="50" >
-                        <StackLayout VerticalOptions="FillAndExpand"
-                              x:DataType="model:ItemDto">
-                            
-                            <StackLayout Grid.Row="0" Orientation="Vertical" HorizontalOptions="Center">
-                                <Label Text="Aplicación de origen" Style="{StaticResource LabelCabeceraStyle}"></Label>
-                                <Label Text="{Binding aplicacion}" TextColor="White"></Label>
-                            </StackLayout>
-                            <StackLayout Grid.Row="1" Orientation="Vertical" HorizontalOptions="Center">
-                                <Label Text="IP de origen" Style="{StaticResource LabelCabeceraStyle}"></Label>
-                                <Label Text="IP DE PRUEBA" TextColor="White"></Label>
-                            </StackLayout>
-                            <StackLayout Grid.Row="2" Orientation="Vertical" HorizontalOptions="Center">
-                                <Label Text="Solicitado el" Style="{StaticResource LabelCabeceraStyle}"></Label>
-                                <Label Text="{Binding creado,StringFormat='{0:dd/MM/yyyy HH:mm:ss}'}" TextColor="White"></Label>
-                            </StackLayout>
-                            <StackLayout  Grid.Row="3" Orientation="Vertical" HorizontalOptions="Center">
-                                <Label Text="Esta solicitud expira en" Style="{StaticResource LabelCabeceraStyle}"></Label>
-                                <Label Text="{Binding TiempoExpira}"
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BorderColor="{StaticResource Primary}" BackgroundColor="{StaticResource Primary}" CornerRadius="50">
+                                <StackLayout VerticalOptions="FillAndExpand"
+                              x:DataType="model:ItemDto"
+                                     Spacing="20">
+
+                                    <StackLayout Grid.Row="0" Orientation="Vertical" HorizontalOptions="CenterAndExpand" Spacing="10">
+                                        <Label Text="Aplicación de origen" Style="{StaticResource LabelCabeceraStyle}"></Label>
+                                        <Label Text="{Binding aplicacion}" TextColor="White" HorizontalOptions="Center" FontSize="20"></Label>
+                                    </StackLayout>
+                                    <StackLayout Grid.Row="1" Orientation="Vertical" HorizontalOptions="Center" Spacing="10">
+                                        <Label Text="IP de origen" Style="{StaticResource LabelCabeceraStyle}"></Label>
+                                        <Label Text="IP DE PRUEBA" TextColor="White" HorizontalOptions="Center" FontSize="20"></Label>
+                                    </StackLayout>
+                                    <StackLayout Grid.Row="2" Orientation="Vertical" HorizontalOptions="Center" Spacing="10">
+                                        <Label Text="Solicitado el" Style="{StaticResource LabelCabeceraStyle}"></Label>
+                                        <Label Text="{Binding creado,StringFormat='{0:dd/MM/yyyy HH:mm:ss}'}" 
+                                       TextColor="White" 
+                                       HorizontalOptions="Center"
+                                       FontSize="20"></Label>
+                                    </StackLayout>
+                                    <StackLayout  Grid.Row="3" Orientation="Vertical" HorizontalOptions="Center" Spacing="10">
+                                        <Label Text="Esta solicitud expira en" Style="{StaticResource LabelCabeceraStyle}"></Label>
+                                        <Label Text="{Binding TiempoExpira}"
                                        TextColor="{Binding ExpiryColor}"
-                                       FontSize="25"></Label>
-                            </StackLayout>
-                            <FlexLayout Direction="Row" JustifyContent="SpaceAround">
-                                <Button FlexLayout.Grow="1" Text="Aceptar" 
+                                       FontSize="35"
+                                       HorizontalOptions="Center"></Label>
+                                    </StackLayout>
+                                    <FlexLayout Direction="Row" JustifyContent="SpaceAround">
+                                        <Button FlexLayout.Grow="1" Text="Aceptar" 
                                         WidthRequest="150"
                                         IsVisible="{Binding IsExpired, Mode=TwoWay, Converter={StaticResource InvertedBoolConverter}}"
                                         TextColor="{StaticResource TextColorPrimary}" 
                                         BackgroundColor="{StaticResource Button_Success_Backcolor}" 
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ItemsViewModel}}, Path=AutorizoCommand}"		
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ItemsViewModel}}, Path=AcceptCommand}"		
                                         CommandParameter="{Binding .}"></Button>
-                                <Button WidthRequest="150"
+                                        <Button WidthRequest="150"
                                     FlexLayout.Grow="1"
                                         Text="Rechazar" 
                                         TextColor="{StaticResource TextColorPrimary}" 
                                         BackgroundColor="{StaticResource Rojo_escudo}" 
                                         IsVisible="{Binding IsExpired, Mode=TwoWay, Converter={StaticResource InvertedBoolConverter}}"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ItemsViewModel}}, Path=RechazoCommand}"		
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ItemsViewModel}}, Path=RejectCommand}"		
                                         CommandParameter="{Binding .}"></Button>
-                            </FlexLayout>
-                            <ActivityIndicator Grid.Row="4"
-                                       Color="{StaticResource Amarillo_logo}"
-                                       IsRunning="{Binding Source={RelativeSource AncestorType={x:Type vm:ItemsViewModel}}, Path=IsBusy}"></ActivityIndicator>
-                        </StackLayout>
-                    </Frame>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </RefreshView>
+                                    </FlexLayout>
+                                </StackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+        </StackLayout>
+        <StackLayout
+        x:Name="aiLayout"
+        IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:ItemsViewModel}}, Path=IsBusy}"
+        AbsoluteLayout.LayoutBounds="0,0,1,1"
+        AbsoluteLayout.LayoutFlags="All"
+        BackgroundColor="Gray" Opacity="0.5">
+            <ActivityIndicator
+            HorizontalOptions="CenterAndExpand"
+            VerticalOptions="CenterAndExpand"
+                Color="{StaticResource Amarillo_logo}"
+                IsRunning="{Binding Source={RelativeSource AncestorType={x:Type vm:ItemsViewModel}}, Path=IsBusy}"></ActivityIndicator>
+        </StackLayout>
+    </AbsoluteLayout>
 </pages:BasePage>

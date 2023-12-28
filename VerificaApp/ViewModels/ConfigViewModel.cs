@@ -43,7 +43,7 @@
             MainThreadHelper.BeginInvokeOnMainThread(async () =>
             {
                 TestForRegisteredUser = false;
-                await AppShell.Current.GoToAsync("SignUpPage");
+                await AppShell.Current.GoToAsync($"///{nameof(SignUpPage)}");
             });
         }
         #endregion

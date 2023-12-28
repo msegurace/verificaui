@@ -125,7 +125,7 @@ namespace VerificaApp.Services
         /// Valida que el usuario/contraseña/teléfono y guid sean correctos en GdI
         /// </summary>
         /// <param name="user">Objeto del usuario a validar</param>
-        /// <returns>Ok / Nok</returns>
+        /// <returns>VerificaAppGenericResponse</returns>
         public async Task<VerificaAppGenericResponse> ValidateUser(VerificaAppUser user)
         {
 
@@ -135,7 +135,7 @@ namespace VerificaApp.Services
                 await this.Auth();
                 var strPayload = JsonSerializer.Serialize(user);
                 var httpContent = new StringContent(strPayload, Encoding.UTF8, "application/json");
-                var resp = await httpClient.PostAsync(this.httpClient.BaseAddress + CommonConstants.REGISTER_USER_URL, httpContent);
+                var resp = await httpClient.PostAsync(this.httpClient.BaseAddress + CommonConstants.VALIDATE_USER_URL, httpContent);
                 resp.EnsureSuccessStatusCode();
 
                 string content = await resp.Content.ReadAsStringAsync();
@@ -155,9 +155,9 @@ namespace VerificaApp.Services
         /// 
         /// </summary>
         /// <returns></returns>
-        public async Task<VerificaAppGenericResponse> GetTokens(int idUser)
+        public async Task<List<ItemDto>> GetTokens(int idUser)
         {
-            VerificaAppGenericResponse response = new VerificaAppGenericResponse();
+            List<ItemDto> response = new List<ItemDto>();
             List<AuthRequest> auths = new List<AuthRequest>();
             if (CheckNetwork())
             {
@@ -167,13 +167,9 @@ namespace VerificaApp.Services
                 resp.EnsureSuccessStatusCode();
 
                 string content = await resp.Content.ReadAsStringAsync();
-                response = JsonSerializer.Deserialize(content, VerificaAppGenericResponseContext.Default.VerificaAppGenericResponse);
+                response = JsonSerializer.Deserialize<List<ItemDto>>(content);
             }
-            else
-            {
-                response.code = "NOK";
-                response.content = "No se pudo conectar a la red.";
-            }
+            
             return response;
         }
 
@@ -185,7 +181,11 @@ namespace VerificaApp.Services
         {
             if (CheckNetwork())
             {
-                string strPayload = JsonSerializer.Serialize("{ \"id\":" + id + "}");
+                var req = new AcceptRejectRequest()
+                {
+                    id = id
+                };
+                string strPayload = JsonSerializer.Serialize(req);
                 HttpContent httpContent = new StringContent(strPayload, Encoding.UTF8, "application/json");
 
                 HttpResponseMessage response = await httpClient.PostAsync(this.httpClient.BaseAddress + CommonConstants.ACCEPT_TOKEN_URL, httpContent);
@@ -204,7 +204,12 @@ namespace VerificaApp.Services
         {
             if (CheckNetwork())
             {
-                string strPayload = JsonSerializer.Serialize("{ \"id\":" + id + "}");
+                var req = new AcceptRejectRequest()
+                {
+                    id = id
+                };
+                string strPayload = JsonSerializer.Serialize(req);
+
                 HttpContent httpContent = new StringContent(strPayload, Encoding.UTF8, "application/json");
 
                 HttpResponseMessage response = await httpClient.PostAsync(this.httpClient.BaseAddress + CommonConstants.REJECT_TOKEN_URL, httpContent);
