@@ -38,6 +38,7 @@
   font-size: 1.2rem;
 }
 
+
 .mat-mdc-card-title {
   font-size: 1.7rem;
 }
@@ -61,4 +62,35 @@ th {
 }
 td {
     text-align: right;
+}
+
+@media (max-width: 600px) {
+  #timer {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .mat-mdc-card {
+    max-width: 90%;
+    font-size: 1rem;
+  }
+
+  .container_2fa {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .mat-mdc-card-title {
+    font-size: 1.2rem;
+  }
+
+  .mat-mdc-card-subtitle {
+    color: whitesmoke;
+    font-size: 0.8rem;
+  }
+
+  th, td {
+    font-size: 1rem;
+    padding: 10px;
+  }
 }

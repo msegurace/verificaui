@@ -4,6 +4,7 @@ import { interval, map } from 'rxjs';
 import { Token2FADto } from '../../Models/token2fa.dto';
 import { TokenService } from '../../Services/token.service';
 import { EvaluateRiskResult } from '../../Models/evaluaterisk-result.dto';
+import { LoginService } from '../../Services/login.service';
 
 @Component({
   selector: 'app-wait-auth',
@@ -14,22 +15,25 @@ export class WaitAuthComponent implements OnInit {
   time!: {
     days: number;
     hours: number;
-    minutes: number;
-    seconds: number;
+    minutes: string;
+    seconds: string;
   };
 
-  tStatus: string = "A";
+  tStatus: string = "V";
   
   finishDate: Date = new Date();
   token?: Token2FADto;
   result2fa?: EvaluateRiskResult;
+  username?: string;
 
   constructor(private router: Router,
     private activatedRoute: ActivatedRoute,
-    private tokenService: TokenService) {
+    private tokenService: TokenService,
+    private authService: LoginService) {
     var state = this.router.getCurrentNavigation()!.extras.state;
     this.token = state!['token'];
     this.result2fa = state!['result2fa'];
+    this.username = state!['usuario'];
   }
 
   ngOnInit(): void {
@@ -38,7 +42,7 @@ export class WaitAuthComponent implements OnInit {
     
     // Inicializamos el momento que falta hasta llegaral tiempo objetivo con valores en 0
     this.time = {
-      days: 0, hours: 0, minutes: 0, seconds: 0
+      days: 0, hours: 0, minutes: '00', seconds: '00'
     };
     // Creamos la fecha a partir de la fecha en formato string AAAA-MM-dd HH:mm:ss
     this.finishDate = new Date(this.token!.creado);
@@ -50,8 +54,8 @@ export class WaitAuthComponent implements OnInit {
       if (this.time.days < 0) {
         this.time = {
           hours: 0,
-          minutes: 0,
-          seconds: 0,
+          minutes: '0',
+          seconds: '0',
           days: 0
         }
         counterTimer$.unsubscribe();
@@ -59,7 +63,7 @@ export class WaitAuthComponent implements OnInit {
     });
 
     let tokenTimer$ = this.startToken().subscribe((_) => {
-      if (this.tStatus != "A" && this.tStatus != 'V') {
+      if (this.tStatus != 'V') {
           tokenTimer$.unsubscribe();
         }
     })
@@ -81,8 +85,8 @@ export class WaitAuthComponent implements OnInit {
     // La diferencia que se asignará para mostrarlo en la pantalla
     this.time.days = days;
     this.time.hours = hours - days * 24;
-    this.time.minutes = mins - hours * 60;
-    this.time.seconds = secs - mins * 60;
+    this.time.minutes = (mins - hours * 60).toString().padStart(2, '0');
+    this.time.seconds = (secs - mins * 60).toString().padStart(2, '0');
   }
 
   // Ejecutamos la acción cada segundo, para obtener la diferencia entre el momento actual y el objetivo
@@ -103,6 +107,10 @@ export class WaitAuthComponent implements OnInit {
           .then(r => {
             this.tStatus = r;
             if (r == "A") {
+              if (this.token!.idaplicacion === 1) {
+                sessionStorage.setItem('username', this.username!);
+                this.authService.setLoggedIn(true);
+              }
               this.router.navigate(['/resultpage'], {
                 state: { token: this.token }
               });

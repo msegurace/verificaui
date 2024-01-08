@@ -13,12 +13,18 @@ body { margin: 0 auto;
        max-width: 1600px;
 }
 
+.mat-toolbar {
+  height: 80px;
+  padding-top: 7px;
+}
+
 .mat-mdc-card {
   position: relative;
   padding: 20px;
   background-color: #577b94 !important;
   color: white;
   border-radius: 20px;
+  margin: 0 auto;
 }
 
 @media (max-width: 600px) {

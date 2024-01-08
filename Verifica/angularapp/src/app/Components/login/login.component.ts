@@ -43,8 +43,6 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authService: LoginService,
     private tokenService: TokenService,
-    private sharedService: SharedService,
-    private headerMenusService: HeaderMenusService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private snackbar: MatSnackBar) {
@@ -122,8 +120,8 @@ export class LoginComponent implements OnInit {
       await this.authService.login(this.loginInformation)
         .then(user => {
           this.loginUser = user;
-          sessionStorage.setItem('username', this.loginUser!.username);
-          this.authService.setLoggedIn(true);
+          //sessionStorage.setItem('username', this.loginUser!.username);
+          //this.authService.setLoggedIn(true);
         })
         .catch(error => throwError(() => {
           console.log(error);
@@ -143,7 +141,7 @@ export class LoginComponent implements OnInit {
               duration: 5000, horizontalPosition: 'right', verticalPosition: 'top'
             })
             this.router.navigate(['/waitauth'], {
-              state: { token: resp, result2fa: this.result2FA! }
+              state: { token: resp, result2fa: this.result2FA!, usuario: this.loginUser!.username! }
             });
           })
           .catch(error => throwError(() => {

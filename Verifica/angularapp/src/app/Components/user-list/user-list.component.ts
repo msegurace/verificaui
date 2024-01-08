@@ -216,7 +216,7 @@ export class UserListComponent implements OnInit {
       this.getAllUsers();
     } else {
       let resp = this.service.get(this.selectedUser);
-      resp.then((report) => { this.dataSource.data = report.items as UsuarioDto[] })
+      resp.then((report) => { this.dataSource.data.push(report as UsuarioDto) })
     }
 
   }

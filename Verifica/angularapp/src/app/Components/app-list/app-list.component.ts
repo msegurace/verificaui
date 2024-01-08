@@ -200,15 +200,17 @@ export class AppListComponent implements OnInit {
   }
 
   // Fill on selected option
-  public onSelectApp(): void {
+  public async onSelectApp(): Promise<void> {
     this.selection.clear();
     if (this.selectedApp === 'all') {
       this.getAllApplications();
     } else {
-      let resp = this.service.get(this.selectedApp);
-      resp.then((report) => { this.dataSource.data = report.items as AplicacionDto[] })
+      console.log(this.selectedApp);
+      await this.service.get(this.selectedApp.toString()).then((report) => {
+        console.log(report.descripcion);
+        this.dataSource.data.map(app => app.id === report.id)
+      });
     }
-
   }
 
   // Show/Hide check boxes 

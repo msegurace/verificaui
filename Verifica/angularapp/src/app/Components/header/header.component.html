@@ -2,6 +2,7 @@
   <mat-toolbar-row>
     <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm>
       <mat-icon>menu</mat-icon>
+      Verifica
     </button>
     <div fxLayout="row" fxLayoutAlign="center center" class="fullscreen"
          *ngIf="{isLoggedIn: (isLoggedIn$ | async) } as data">
@@ -32,12 +33,12 @@
 <mat-sidenav-container fxFlexFill>
   <mat-sidenav #sidenav>
     <mat-nav-list>
-      <a (click)="sidenav.toggle()" href="" mat-list-item>Close</a>
+      <a (click)="sidenav.toggle()" href="" mat-list-item>Cerrar</a>
       <div *ngIf="!isLoggedIn$">
         <button mat-button routerLink="/home">Inicio</button>
         <button mat-button routerLink="/login">Inicio de sesión</button>
       </div>
-      <div *ngIf="isLoggedIn$">
+      <div fxLayout="column" *ngIf="isLoggedIn$">
         <button mat-button routerLink="/home">Inicio</button>
         <button mat-button routerLink="/applist">Gestión de aplicaciones</button>
         <button mat-button routerLink="/userlist">Gestión de usuarios</button>

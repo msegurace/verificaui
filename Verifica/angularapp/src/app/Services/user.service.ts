@@ -17,7 +17,7 @@ export class UserService {
   }
 
   async get(id: string) {
-    return firstValueFrom(this.http.get<GenericResponse>(constants.BASE_URL + constants.usersUrl + `/get?id=${id.trim()}page=1&take=10`));
+    return firstValueFrom(this.http.get<UsuarioDto>(constants.BASE_URL + constants.usersUrl + `/get/${id.trim()}`));
   }
 
   async register(user: UsuarioDto) {

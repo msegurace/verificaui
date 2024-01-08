@@ -66,7 +66,7 @@ const routes: Routes = [
       import('./Components/wait-auth/waith-auth.module').then(
         (m) => m.WaitAuthModule
       ),
-    canActivate: [AuthGuard],
+  //  canActivate: [AuthGuard],
   },
   {
     path: 'resultpage',
