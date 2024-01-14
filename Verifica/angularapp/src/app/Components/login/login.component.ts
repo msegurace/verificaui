@@ -19,6 +19,7 @@ import { EvaluateRiskInformation } from '../../Models/evaluaterisk-information.d
 import { TokenService } from '../../Services/token.service';
 import { EvaluateRiskResult } from '../../Models/evaluaterisk-result.dto';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Token2FADto } from '../../Models/token2fa.dto';
 
 @Component({
   selector: 'login',
@@ -151,7 +152,11 @@ export class LoginComponent implements OnInit {
         this.snackbar.open("Inicio de sesión correcto, NO hace falta 2FA... Redireccionando", 'Close', {
           duration: 5000, horizontalPosition: 'right', verticalPosition: 'top'
         })
-        this.router.navigateByUrl('/resultpage');
+        const token = new Token2FADto(1, new Date(), this.loginUser!.id!, +this.idApp, '', true, false);
+
+        this.router.navigate(['/resultpage'], {
+          state: { token: token }
+        });
       }      
     } else {
       this.snackbar.open(`Error Evaluando 2FA, se retorna al inicio.`, 'Close', {

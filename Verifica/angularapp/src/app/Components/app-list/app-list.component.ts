@@ -62,12 +62,13 @@ export class AppListComponent implements OnInit {
 
   // Keep as main 'column mapper'
   displayedColumns: DisplayColumn[] = [
-    { def: 'select', label: 'Select', hide: false },
+    { def: 'select', label: 'Selecciona', hide: false },
     { def: 'id', label: 'Id', hide: false },
     { def: 'descripcion', label: 'Descripción', hide: false },
     { def: 'url', label: 'URL', hide: false },
     { def: 'origen', label: 'Origen', hide: false },
     { def: 'clasificacion_ens', label: 'Clasificación ENS', hide: false },
+     { def: 'action', label: 'Acción', hide: false }
   ];
 
   // Used in the template
